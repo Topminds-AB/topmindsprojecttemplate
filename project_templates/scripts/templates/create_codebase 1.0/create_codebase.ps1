@@ -204,6 +204,48 @@ function Read-EnvFile {
     return $vars
 }
 
+function Format-FileSize([long]$Bytes) {
+    if ($Bytes -ge 1MB) { return "{0:N1} MB" -f ($Bytes / 1MB) }
+    if ($Bytes -ge 1KB) { return "{0:N1} KB" -f ($Bytes / 1KB) }
+    return "$Bytes B"
+}
+
+function Build-RepoTree {
+    <#
+    .SYNOPSIS
+        Generates a tree /F /A style listing of ALL files on disk, with file sizes.
+        Lists every file physically present in the repository, including gitignored files.
+    #>
+    param(
+        [string]$RootPath,
+        [string[]]$ExcludeTopDirs = @()
+    )
+
+    $output = [System.Collections.Generic.List[string]]::new()
+    $output.Add((Split-Path $RootPath -Leaf))
+
+    function Recurse([string]$Dir, [string]$Prefix, [string[]]$Skip) {
+        $items = @(Get-ChildItem -Path $Dir -Force -ErrorAction SilentlyContinue |
+                   Where-Object { -not ($_.PSIsContainer -and $Skip -contains $_.Name) } |
+                   Sort-Object { !$_.PSIsContainer }, Name)
+        for ($i = 0; $i -lt $items.Count; $i++) {
+            $last = ($i -eq ($items.Count - 1))
+            $connector = if ($last) { '\---' } else { '+---' }
+            $extension = if ($last) { '    ' } else { '|   ' }
+            if ($items[$i].PSIsContainer) {
+                $output.Add("${Prefix}${connector}$($items[$i].Name)")
+                Recurse -Dir $items[$i].FullName -Prefix "${Prefix}${extension}" -Skip @()
+            } else {
+                $sz = Format-FileSize $items[$i].Length
+                $output.Add("${Prefix}${connector}$($items[$i].Name)  ($sz)")
+            }
+        }
+    }
+
+    Recurse -Dir $RootPath -Prefix "" -Skip $ExcludeTopDirs
+    return $output.ToArray() -join "`n"
+}
+
 function Invoke-SecretsScan {
     param([string]$Directory)
     
@@ -664,18 +706,20 @@ if (Test-Path $questionsPath) {
 }
 
 # ---- file_inventory.txt ----
-$inventoryLines = @()
-$inventoryLines += "#### File Inventory for $zipName"
-$inventoryLines += ""
-$inventoryLines += "Format: path<TAB>size_bytes"
-$inventoryLines += ""
+# Tree of ALL files physically present in the repository (including gitignored files).
+# Excludes only .git (internal objects) and the output directory (ZIP target).
+# The ZIP file itself is NOT listed.
+$treeExcludeDirs = @(".git", ($CONFIG.OutputDir -replace '^[./\\]+', ''))
+$treeContent = Build-RepoTree -RootPath $repoRoot -ExcludeTopDirs $treeExcludeDirs
 
-Get-ChildItem -Path $stagingDir -Recurse -File -ErrorAction SilentlyContinue | Sort-Object FullName | ForEach-Object {
-    $rel = $_.FullName.Substring($stagingDir.Length + 1).Replace("\", "/")
-    $inventoryLines += "$rel`t$($_.Length)"
-}
+$inventoryHeader = @"
+#### File Inventory (Repository Tree) for $zipName
+#### Generated: $(Get-Date -Format "yyyy-MM-dd HH:mm:ss")
+#### NOTE: This lists ALL files on disk in the repository, including gitignored files.
+####       The ZIP archive content may differ (exclusions applied, secrets redacted).
 
-$inventoryContent = $inventoryLines -join "`n"
+"@
+$inventoryContent = $inventoryHeader + $treeContent
 [System.IO.File]::WriteAllText((Join-Path $manifestOut "file_inventory.txt"), $inventoryContent, $utf8)
 
 Write-Ok "Manifest files created (5 files)"
