@@ -1,44 +1,78 @@
 # SoT — 10 Runtime & Config
-> **Purpose:** Make configuration and runtime behavior predictable across environments.  
-> **Rule:** List only variables actually used by this repo (subset of `.env.example`).  
-> **Keep updated:** When adding/removing env vars or changing ports/URLs.
+
+> **Purpose:** Make configuration and runtime behavior predictable across environments.
+> **Rule:** List only variables actually used by this repo or required by the standard repo workflow.
+> **Keep updated:** Update this file when env vars, ports, URLs, config entrypoints, or runtime commands change.
 
 ---
 
 ## 1) Environments
+
 - **APP_ENV values used here:** `local | dev | test | staging | prod`
-- **What changes per environment:**
-  - Local:
-  - Dev:
-  - Prod:
+- **Local:**
+- **Dev:**
+- **Test:**
+- **Staging:**
+- **Prod:**
 
 ---
 
-## 2) Entrypoints (where config is read)
-> Document the exact files/processes that read env vars.
+## 2) Configuration entrypoints
 
-- **Backend:** (e.g. `services/api/`, framework, entry file)
+Document the exact files and processes that read configuration.
+
+- **Root env example:** `.env.example`
+- **Local secrets file:** `.env` must be gitignored and must never be included in snapshots.
+- **Docker Compose:**
+  - Compose file(s):
+  - Profiles:
+- **Backend:**
+  - Path:
   - Reads from:
   - Startup command:
-- **Frontend:** (if any)
+- **Frontend:**
+  - Path:
   - Reads from:
   - Build command:
-- **Worker / jobs:** (if any)
+- **Worker/jobs:**
+  - Path:
   - Reads from:
   - Startup command:
-- **Docker Compose:** (if used)
-  - Compose file(s):
-  - Profiles (if any):
+- **Other config files:**
+  -
 
 ---
 
-## 3) Core app settings (APP_*)
+## 3) Standard repo workflow variables
+
+These variables are part of the standard repository workflow and may be used by agents, scripts, or documentation tooling.
+
+| Variable | Used by | Required | Notes |
+|---|---|---:|---|
+| OBSIDIAN_VAULT_PATH | Agents, documentation workflow, shared skills lookup | Yes, when Obsidian integration is used | Points to the local Obsidian vault root. Example value belongs in `.env.example`; secrets do not. |
+
+Expected `.env.example` entry:
+
+```env
+OBSIDIAN_VAULT_PATH=D:\Dropbox\Obsidian\Vaults\Topminds
+```
+
+Do not hardcode this path in scripts or documentation outside `.env.example`. Scripts must read the value from the environment or from the repo-approved config loading mechanism.
+
+---
+
+## 4) Core app settings
+
+Keep only variables used by this repo. Remove unused rows when converting the template into a real repo.
+
 | Variable | Used by | Required | Notes |
 |---|---|---:|---|
 | APP_NAME |  |  |  |
-| APP_ENV |  |  |  |
+| APP_ENV |  |  | `local`, `dev`, `test`, `staging`, or `prod`. |
 | APP_TIMEZONE |  |  |  |
 | BASE_URL |  |  |  |
+| PUBLIC_BASE_URL | `scripts/purge-cloudflare.*` fallback domain detection | No | Used only if `SITE_DOMAIN` is not set. |
+| SITE_DOMAIN | `scripts/purge-cloudflare.*` | No | Preferred hostname for Cloudflare zone lookup. |
 | SITE_URL |  |  |  |
 | DEBUG |  |  |  |
 | LOG_LEVEL |  |  |  |
@@ -47,20 +81,26 @@
 
 ---
 
-## 4) Database settings
-### 4.1 Production/primary DB (DB_*)
+## 5) Database settings
+
+### 5.1 Primary database
+
 | Variable | Used by | Required | Notes |
 |---|---|---:|---|
-| DB_ENGINE |  |  | mysql/postgres/etc |
-| DB_HOST |  |  |  |
-| DB_PORT |  |  |  |
-| DB_NAME |  |  |  |
-| DB_USER |  |  |  |
-| DB_PASSWORD |  |  |  |
-| DB_SSL_MODE |  |  |  |
+| DB_ENGINE | `scripts/dbbackup_full.ps1` | Yes when a repo has a DB | `mysql`, `mariadb`, `postgres`, or `sqlite`. |
+| DB_URL | `scripts/dbbackup_full.ps1` | No | Canonical connection string for the active backup target. |
+| DB_HOST | `scripts/dbbackup_full.ps1` | No | Use with split DB credentials when `DB_URL` is absent. |
+| DB_PORT | `scripts/dbbackup_full.ps1` | No |  |
+| DB_NAME | `scripts/dbbackup_full.ps1` | No |  |
+| DB_USER | `scripts/dbbackup_full.ps1` | No |  |
+| DB_PASSWORD | `scripts/dbbackup_full.ps1` | No | Secret. Must never be committed. |
+| DB_PATH | `scripts/dbbackup_full.ps1` | No | SQLite file path when `DB_ENGINE=sqlite`. |
+| DB_BACKUP_PROFILE | `scripts/dbbackup_full.ps1` | No | Required when the repo exposes multiple viable DB targets. |
+| DB_SSL_MODE | `scripts/dbbackup_full.ps1` | No |  |
 
-### 4.2 Local/dev DB (MYSQL_* or POSTGRES_*)
-> Use `MYSQL_*` for local MySQL (common in compose). If you use Postgres locally, document `POSTGRES_*` too.
+### 5.2 Local/dev database
+
+Use `MYSQL_*` for local MySQL. Use `POSTGRES_*` for local PostgreSQL. These remain compatibility aliases and are not the canonical backup contract.
 
 | Variable | Used by | Required | Notes |
 |---|---|---:|---|
@@ -68,22 +108,29 @@
 | MYSQL_PORT |  |  |  |
 | MYSQL_DATABASE |  |  |  |
 | MYSQL_USER |  |  |  |
-| MYSQL_PASSWORD |  |  |  |
+| MYSQL_PASSWORD |  |  | Secret. Must never be committed. |
+| POSTGRES_HOST |  |  |  |
+| POSTGRES_PORT |  |  |  |
+| POSTGRES_DB |  |  |  |
+| POSTGRES_USER |  |  |  |
+| POSTGRES_PASSWORD |  |  | Secret. Must never be committed. |
 
 ---
 
-## 5) Cache / sessions (REDIS_*)
+## 6) Cache and sessions
+
 | Variable | Used by | Required | Notes |
 |---|---|---:|---|
 | REDIS_HOST |  |  |  |
 | REDIS_PORT |  |  |  |
-| REDIS_PASSWORD |  |  |  |
-| REDIS_URL |  |  |  |
-| SESSION_STORE |  |  | cookie/redis/db |
+| REDIS_PASSWORD |  |  | Secret. Must never be committed. |
+| REDIS_URL |  |  | Secret if it contains credentials. |
+| SESSION_STORE |  |  | `cookie`, `redis`, `db`, or documented repo-specific value. |
 
 ---
 
-## 6) Email (SMTP_*)
+## 7) Email
+
 | Variable | Used by | Required | Notes |
 |---|---|---:|---|
 | MAIL_FROM_NAME |  |  |  |
@@ -91,109 +138,104 @@
 | SMTP_HOST |  |  |  |
 | SMTP_PORT |  |  |  |
 | SMTP_USER |  |  |  |
-| SMTP_PASSWORD |  |  |  |
-| SMTP_SECURE |  |  | none/starttls/ssl |
+| SMTP_PASSWORD |  |  | Secret. Must never be committed. |
+| SMTP_SECURE |  |  | `none`, `starttls`, or `ssl`. |
 
 ---
 
-## 7) AI configuration (subset used)
-> If the repo uses AI, list provider + routing variables actually referenced in code.
+## 8) AI configuration
 
-### 7.1 Routing
+If this repo uses AI, list provider and routing variables actually referenced in code. Remove provider sections that are not used.
+
+### 8.1 Routing
+
 | Variable | Used by | Required | Notes |
 |---|---|---:|---|
-| AI_PROVIDER_DEFAULT |  |  | openai/anthropic/google/perplexity/grok/ollama |
+| AI_PROVIDER_DEFAULT |  |  | `openai`, `anthropic`, `google`, `perplexity`, `xai`, `ollama`, or documented repo-specific value. |
 | AI_MODEL_DEFAULT |  |  |  |
 | AI_REQUEST_TIMEOUT_SECONDS |  |  |  |
 | AI_RETRIES |  |  |  |
 
-### 7.2 Providers used in this repo
-> Fill the sections you actually use; delete the rest.
+### 8.2 Providers
 
-#### OpenAI
 | Variable | Used by | Required | Notes |
 |---|---|---:|---|
-| OPENAI_API_KEY |  |  |  |
+| OPENAI_API_KEY |  |  | Secret. Must never be committed. |
 | OPENAI_DEFAULT_MODEL |  |  |  |
 | OPENAI_EMBEDDINGS_MODEL |  |  |  |
-
-#### Anthropic
-| Variable | Used by | Required | Notes |
-|---|---|---:|---|
-| ANTHROPIC_API_KEY |  |  |  |
+| ANTHROPIC_API_KEY |  |  | Secret. Must never be committed. |
 | ANTHROPIC_DEFAULT_MODEL |  |  |  |
-
-#### Google AI (Gemini)
-| Variable | Used by | Required | Notes |
-|---|---|---:|---|
-| GOOGLE_AI_API_KEY |  |  |  |
+| GOOGLE_AI_API_KEY |  |  | Secret. Must never be committed. |
 | GOOGLE_AI_DEFAULT_MODEL |  |  |  |
-
-#### Perplexity
-| Variable | Used by | Required | Notes |
-|---|---|---:|---|
-| PERPLEXITY_API_KEY |  |  |  |
+| PERPLEXITY_API_KEY |  |  | Secret. Must never be committed. |
 | PERPLEXITY_DEFAULT_MODEL |  |  |  |
-
-#### xAI (Grok)
-| Variable | Used by | Required | Notes |
-|---|---|---:|---|
-| XAI_API_KEY |  |  |  |
+| XAI_API_KEY |  |  | Secret. Must never be committed. |
 | XAI_DEFAULT_MODEL |  |  |  |
-
-#### Local AI (Ollama)
-| Variable | Used by | Required | Notes |
-|---|---|---:|---|
 | OLLAMA_HOST |  |  |  |
 | OLLAMA_DEFAULT_MODEL |  |  |  |
-
-#### Local AI (KBWhisper)
-| Variable | Used by | Required | Notes |
-|---|---|---:|---|
 | KBWHISPER_HOST |  |  |  |
 | KBWHISPER_MODEL |  |  |  |
 | KBWHISPER_LANGUAGE |  |  |  |
 
 ---
 
-## 8) Storage (subset used)
+## 9) Storage
+
 | Variable | Used by | Required | Notes |
 |---|---|---:|---|
-| STORAGE_DRIVER |  |  | local/s3/gcs/azure |
+| STORAGE_DRIVER |  |  | `local`, `s3`, `gcs`, `azure`, or documented repo-specific value. |
 | STORAGE_LOCAL_PATH |  |  |  |
 | STORAGE_PUBLIC_URL |  |  |  |
-
-### S3 (if used)
-| Variable | Used by | Required | Notes |
-|---|---|---:|---|
-| S3_ENDPOINT |  |  |  |
+| S3_ENDPOINT |  |  | Required only when S3-compatible storage is used. |
 | S3_REGION |  |  |  |
 | S3_BUCKET |  |  |  |
-| S3_ACCESS_KEY_ID |  |  |  |
-| S3_SECRET_ACCESS_KEY |  |  |  |
+| S3_ACCESS_KEY_ID |  |  | Secret. Must never be committed. |
+| S3_SECRET_ACCESS_KEY |  |  | Secret. Must never be committed. |
 
 ---
 
-## 9) Ports and endpoints (effective values)
-> List what actually runs where, so it’s trivial to verify.
+## 10) Ports and endpoints
 
-- **Backend:** host:port → 
-- **Frontend:** host:port → 
-- **DB local:** host:port → 
-- **Redis:** host:port → 
-- **Ollama:** URL → 
-- **KBWhisper:** URL → 
+List effective values for this repo.
 
----
-
-## 10) Snapshot expectations (config perspective)
-- `.env` is **never** included in snapshots.
-- `.env.example` **is** included.
-- Any config files containing secrets must be excluded by `create_codebase`.
+- **Backend:**
+- **Frontend:**
+- **Database:**
+- **Redis:**
+- **Ollama:**
+- **KBWhisper:**
+- **Other:**
 
 ---
 
-## 11) Change log for config
-> Add a short note each time you change env var usage.
+## 11) Snapshot expectations
 
-- YYYY-MM-DD: 
+- `.env` is never included in snapshots.
+- `.env.example` is included.
+- Config files containing secrets must be excluded by `create_codebase`.
+- `create_codebase.ps1` derives project identity from repo truth and delegates DB dumps to `scripts/dbbackup_full.ps1`.
+- `scripts/dbbackup_full.ps1` writes to repo-root `.dbbackup\` and retains successful artifacts for 10 days by default.
+- Snapshot behavior and standard backup folders are documented in `docs/SoT/50_standard_tooling_and_snapshots.md`.
+
+---
+
+## 12) Cloudflare cache purge support
+
+The repo-level helpers `scripts/purge-cloudflare.ps1` and `scripts/purge-cloudflare.sh` read Cloudflare credentials from the repo `.env` by default.
+
+| Variable | Used by | Required | Notes |
+|---|---|---:|---|
+| CLOUDFLARE_API_TOKEN | `scripts/purge-cloudflare.*` | Yes | Primary token source for Cloudflare purge requests. |
+| CLOUDFLARE_ZONE_ID | `scripts/purge-cloudflare.*` | No | Optional optimization. If absent, the script resolves the zone from `SITE_DOMAIN`. |
+
+The reserve token path must not be hardcoded in repo config. The scripts resolve it from `OBSIDIAN_VAULT_PATH/_keys/Cloudflare.md` only when the explicit reserve-token switch is used.
+
+---
+
+## 13) Change log for config
+
+Add a short note each time env var usage, ports, URLs, or config loading changes.
+
+- 2026-05-29: Added repo-local Cloudflare purge script variables and reserve-token routing via `OBSIDIAN_VAULT_PATH`.
+- 2026-06-29: Added canonical backup contract `DB_ENGINE + DB_URL|DB_HOST...`, multi-target profile support via `DB_BACKUP_PROFILE`, and repo-root `.dbbackup\` handling for the shared template scripts.
+- YYYY-MM-DD:
