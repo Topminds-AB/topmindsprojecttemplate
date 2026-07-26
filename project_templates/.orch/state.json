@@ -1,0 +1,14 @@
+{
+  "run_id": "",
+  "current_owner": "USER",
+  "next_action": "IDLE",
+  "status": "idle",
+  "source_prompt_file": "",
+  "target_agent": "",
+  "last_updated_utc": "",
+  "iteration": 0,
+  "approved": false,
+  "halt_reason": "",
+  "repo_root": "",
+  "notes": ""
+}

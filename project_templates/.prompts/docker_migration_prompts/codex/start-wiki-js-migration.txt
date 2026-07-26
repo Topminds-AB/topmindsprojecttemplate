@@ -1,0 +1,53 @@
+You are the Implementation Agent / Codex Executor.
+
+Your task is to execute a production-safe migration of the Wiki.js repository from the development environment to DOCKERHOST1.
+
+Use the production-docker-migration skill located at:
+
+.codex/skills/production-docker-migration/SKILL.md
+
+Use the filled questionnaire located at:
+
+migration/questionnaires/wiki-js-filled-questionnaire.md
+
+Migration facts:
+- Project name: Wiki.js central documentation platform
+- Snapshot prefix: WIKI
+- Source repo path: C:\projects\wiki.js
+- Destination host: DOCKERHOST1
+- Destination host IP: 192.168.1.211
+- Destination repo path: C:\projects\wiki.js
+- Destination mapped path from BAMSE: W:\wiki.js if W:\ maps to C:\projects on DOCKERHOST1
+- Archive target: M:\projects\_OLD_REPOS
+- Archive UNC fallback: \\192.168.1.165\backup
+- Archive name rule: WIKI_YYYY-MM-DD.zip
+- Compose file: docker-compose.yml
+- Compose project name: wikijs
+- Required external Docker network: proxy
+- Create missing Docker networks: yes
+- Database engine: PostgreSQL
+- Database runs in Docker: yes
+- DB container name: wikijs-postgres
+- Include DB migration: yes
+- DB dump encryption: no
+- pgAdmin remains enabled: yes
+- Canonical hostname after migration: docs.prohat.se
+- Future documentation hotel model: docs.<system>.se hostnames may alias to the same central Wiki.js instance unless a later product decision creates separate instances.
+- Cloudflare/cloudflared is installed on DOCKERHOST1.
+- Traefik should be production-side, not dependent on the development workstation.
+- Use parallel verification before cutover.
+
+Hard rules:
+1. Do not delete or archive the source repo until all destination verification gates pass.
+2. Do not rely on host-installed application dependencies. Runtime dependencies must be in the Docker stack.
+3. Verify the live source repo, not only the snapshot.
+4. Check whether docker-compose.yml in the live source repo is valid and not a redacted snapshot artifact.
+5. Treat the docker-compose.yml structure provided by the user in ChatGPT as the verified source compose model.
+6. If the live compose differs, report the exact diff and do not overwrite without explicit approval unless the difference is harmless and functionally equivalent.
+7. Do not print secrets.
+8. Create Docker network `proxy` if missing on DOCKERHOST1.
+9. Restore the PostgreSQL database on destination and verify Wiki.js table counts.
+10. Verify local destination route, Traefik route, Cloudflare public route, GraphQL API, page create/update/readback, and upload/readback before any source cleanup.
+11. After all gates pass and the independent auditor returns PASS or explicit user-approved CONDITIONAL PASS, create archive `WIKI_YYYY-MM-DD.zip`, place it under M:\projects\_OLD_REPOS or the UNC fallback, verify the archive opens, and only then delete the old source repo from C:\projects.
+
+Produce a migration report with commands, PASS/FAIL gates, and exact blockers.

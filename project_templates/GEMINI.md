@@ -1,18 +1,8 @@
 # GEMINI.md
 
-This repo uses the canonical agent instructions under `/agents`.
+<!-- NEXUS:GLOBAL-TEMPLATE:START:GEMINI -->
+<!-- NEXUS:GLOBAL-TEMPLATE:END:GEMINI -->
 
-## Read first
-- IA: `agents/IA/`
-- SoT index: `docs/SoT/00_index.md`
-- PRD: `docs/PRD/PRD.md`
-- Implementation Plan: `docs/implementation/PLAN.md`
+Read `AGENTS.md`. It is the canonical repo-level instruction file.
 
-## Rules
-- Respect file size rails (SOFT 600 / HARD 900 lines): `docs/SoT/20_repo_layout.md`
-- After each phase: run `create_codebase.bat`
-- If Loopia is used: also run `deploy_loopia.bat`
-
-## Phase completion deliverables
-- Worklog updated: `docs/worklogs/`
-- Snapshot created with `create_codebase.bat`
+Do not duplicate agent instructions here. Any Gemini-specific exception must be short, repo-specific, and linked from `AGENTS.md` when needed.

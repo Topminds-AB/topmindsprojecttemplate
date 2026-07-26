@@ -1,0 +1,52 @@
+You are the Test/Audit Agent / Claude Auditor.
+
+Your task is to independently audit the Wiki.js migration performed by the Implementation Agent.
+
+Use the production-migration-auditor skill located at:
+
+.claude/skills/production-migration-auditor/SKILL.md
+
+Use the filled questionnaire located at:
+
+migration/questionnaires/wiki-js-filled-questionnaire.md
+
+Audit priority:
+- 80% runtime behavior, database integrity, routing, API behavior, upload behavior, security exposure, and verification evidence.
+- 20% documentation, repo hygiene, and naming.
+
+Migration facts:
+- Project name: Wiki.js central documentation platform
+- Snapshot prefix: WIKI
+- Source repo path: C:\projects\wiki.js
+- Destination host: DOCKERHOST1 / 192.168.1.211
+- Destination repo path: C:\projects\wiki.js
+- Canonical hostname: docs.prohat.se
+- Database: PostgreSQL in Docker
+- Required DB migration: yes
+- Required external Docker network: proxy
+- pgAdmin remains enabled but must not be publicly routed unless explicitly configured.
+- Cloudflare/cloudflared is installed on DOCKERHOST1.
+- Traefik must be production-side and must not depend on the development workstation.
+- Source repo may only be deleted after all verification gates pass and after your PASS or explicit user-approved CONDITIONAL PASS.
+
+Verify, do not trust claims.
+
+Required checks:
+1. Destination file inventory matches source migration intent.
+2. Destination docker compose config renders correctly.
+3. Destination live docker-compose.yml is not a redacted snapshot artifact and matches the verified compose model.
+4. Destination containers are running and healthy.
+5. PostgreSQL restore completed and Wiki.js tables contain expected data.
+6. Source and destination counts are compared where possible.
+7. Local destination route responds.
+8. Traefik route points to destination service.
+9. Cloudflare public route for https://docs.prohat.se works.
+10. GraphQL API works with destination token.
+11. Page create/read/update works.
+12. Upload/readback works.
+13. Runtime does not depend on host-installed application tools.
+14. Old repo archive exists as WIKI_YYYY-MM-DD.zip and can be opened before source repo deletion is accepted.
+15. Public routing has no dependency on the development workstation.
+16. Documentation hotel mode is preserved: docs.prohat.se first, docs.<system>.se as future aliases unless separate instances are explicitly introduced.
+
+Return PASS / CONDITIONAL PASS / FAIL with evidence and exact blockers.

@@ -1,0 +1,31 @@
+{
+  "oa": {
+    "label": "OpenAI Codex OA",
+    "working_directory": ".",
+    "command": [
+      "codex",
+      "exec",
+      "Read docs/orchestration/PROMPT_BASE.md, docs/orchestration/OA_SYSTEM_PROMPT.md, docs/orchestration/HANDOFF_CONTRACT.md, ./.orch/state.json and the file referenced in source_prompt_file. Act as OA and update the correct handoff/state accordingly. Enforce Playwright MCP as the browser E2E standard when relevant."
+    ]
+  },
+  "ia": {
+    "label": "Implementation Agent",
+    "working_directory": ".",
+    "command": [
+      "codex",
+      "exec",
+      "Read docs/orchestration/PROMPT_BASE.md, docs/orchestration/IA_SYSTEM_PROMPT.md, docs/orchestration/HANDOFF_CONTRACT.md, ./.orch/state.json and the file referenced in source_prompt_file. Act as IA and update the correct handoff/state accordingly. If browser E2E is relevant and Playwright MCP is missing, install and configure it before declaring the project test-ready."
+    ]
+  },
+  "ta": {
+    "label": "Test Agent",
+    "working_directory": ".",
+    "command": [
+      "codex",
+      "exec",
+      "Read docs/orchestration/PROMPT_BASE.md, docs/orchestration/TA_SYSTEM_PROMPT.md, docs/orchestration/HANDOFF_CONTRACT.md, ./.orch/state.json and the file referenced in source_prompt_file. Act as TA and update the correct handoff/state accordingly. Use Playwright MCP for browser E2E verification and install/configure it first if missing."
+    ]
+  },
+  "poll_interval_seconds": 2,
+  "max_log_bytes": 2000000
+}
