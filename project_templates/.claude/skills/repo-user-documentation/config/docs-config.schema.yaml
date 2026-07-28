@@ -1,0 +1,243 @@
+# docs-config.schema.yaml
+#
+# Per-repo configuration. Place at repo root as `docs/docs-config.yaml`.
+# This file is the single source of truth for all decisions the skills
+# need. When a value is set here, the skill uses it WITHOUT asking.
+# When a value is missing, the skill asks once and offers to write the
+# answer back to this file.
+#
+# Priority order:
+#   1. CLI flags (highest — explicit user intent for this run)
+#   2. .env (secrets and connection strings only)
+#   3. docs-config.yaml (this file — decisions and structure)
+#   4. Repo-derived defaults (package.json, scanner inference)
+#   5. Interactive prompt (last resort, only when nothing else has the answer)
+#
+# Every field is optional. Missing fields trigger interactive questions.
+
+# =============================================================================
+# SYSTEM METADATA
+# =============================================================================
+system:
+  slug: styrgruppskort
+  name: Styrgruppskort
+  description: >
+    Verktyg för att skapa standardiserade projektstatuskort till styrgrupper.
+  owner_team: ITC
+  contact_email: itc@example.se
+
+# =============================================================================
+# LOCALES
+# =============================================================================
+# Must match APP_SUPPORTED_LOCALES in .env. If they differ, the skill
+# stops and reports — never tries to reconcile silently.
+locales:
+  - sv
+  - en
+default_locale: sv
+
+# =============================================================================
+# AUDIENCE
+# =============================================================================
+# Default audience for documentation tone. Override via docs/audience.md
+# if a more detailed description is needed.
+audience:
+  file: docs/audience.md         # takes priority if present
+  inline: >
+    Handläggare i kommunal/regional verksamhet. Använder systemet dagligen.
+
+# =============================================================================
+# CAPTURE BEHAVIOUR
+# =============================================================================
+capture:
+  viewport: {width: 1440, height: 900}
+  login:
+    path: /login
+    post_login_url_contains: /dashboard
+    selectors:
+      username: 'input[name="email"]'
+      password: 'input[name="password"]'
+      submit:   'button[data-testid="login-submit"]'
+  locale_switch:
+    strategy: path-prefix          # path-prefix | url-param | cookie | user-setting
+    param: lang
+  wait:
+    default_selector: '[data-app-ready="true"]'
+    default_ms: 0
+
+# =============================================================================
+# CONTENT INVENTORY — answers to "gap" questions the scanner can't fill itself
+# =============================================================================
+# Pre-fill these to skip interactive questions. The scanner finds routes
+# but can't reliably infer flows, roles, integrations, or notifications.
+
+# User flows (multi-step journeys). The scanner cannot detect these.
+flows:
+  - id: login
+    label: Logga in
+    description: Hur du loggar in första gången och vad du ser efteråt.
+    steps:
+      - title: Öppna inloggningssidan
+        path: /login
+        state: empty
+      - title: Ange uppgifter
+        path: /login
+        state: filled
+      - title: Landningssida
+        path: /dashboard
+        state: default
+  - id: create-report
+    label: Skapa rapport
+    description: Steg för att skapa och spara en ny rapport.
+    steps:
+      - title: Öppna rapportlistan
+        path: /reports
+      - title: Klicka Ny rapport
+        path: /reports/new
+        state: empty
+
+# Roles (user types with different UI). Read from auth code or describe here.
+roles:
+  - id: admin
+    label: Administratör
+    description: Har tillgång till alla funktioner och användarhantering.
+  - id: handlaggare
+    label: Handläggare
+    description: Skapar och redigerar ärenden inom sin organisation.
+  - id: lasare
+    label: Läsare
+    description: Kan läsa ärenden men inte skapa eller redigera.
+
+# Integrations the user sees (BankID, SITHS, export, etc.).
+integrations:
+  - id: bankid
+    label: BankID
+    user_facing: Används vid inloggning för säker identifiering.
+  - id: excel-export
+    label: Excel-export
+    user_facing: Exportera rapporter till Excel-format.
+
+# Notifications/emails sent to users.
+notifications:
+  - id: report-ready
+    channel: email
+    trigger: När en rapport är klar att granska.
+    template_path: backend/templates/email/report-ready.html
+
+# =============================================================================
+# SCREENS
+# =============================================================================
+# Skip routes that the scanner picks up but shouldn't be documented.
+skip_routes:
+  - /internal/*
+  - /debug/*
+
+# Add screens the scanner cannot detect.
+extra_screens:
+  - id: settings-profile
+    section: funktioner
+    slug: profil
+    path: /settings/profile
+    wait_selector: 'form[data-testid="profile-form"]'
+    state: default
+
+# Specific screens to capture in non-default states (e.g. error states).
+screen_states:
+  - screen_id: reports--list
+    states: [default, empty, filtered]
+
+# =============================================================================
+# ANNOTATIONS
+# =============================================================================
+annotation:
+  enabled: true
+  default_color: "#0F766E"        # ITC teal
+  spec_file: docs/annotations.json # committed for deterministic re-runs
+
+# =============================================================================
+# HIERARCHY
+# =============================================================================
+hierarchy:
+  include_sections:
+    - komma-igang
+    - funktioner
+    - floden
+    - roller
+    - aviseringar-och-email
+    - integrationer
+    - tangentbord-och-tillganglighet
+    - dataskydd
+    - felsokning
+    - ordlista
+    - faq
+    - kontakt
+  # Explicit ordering. Sections not listed default to alphabetical.
+  section_ordering:
+    funktioner:
+      - rapporter
+      - projektkort
+      - anvandarhantering
+
+# =============================================================================
+# PUBLICATION
+# =============================================================================
+publish:
+  force_rebuild: false             # only true via --force-rebuild CLI flag
+  tags:
+    - user-guide
+    - "{{system.slug}}"
+  # Confirmation gates. Set to false to skip the corresponding stop-point
+  # in interactive runs. Useful for unattended re-runs once trusted.
+  confirm:
+    plan_review: true              # show plan summary, ask before capture
+    landing_review: true           # show generated L1/L3 landings before publish
+    publish_dryrun: false          # if true, never actually publish (always dry-run)
+
+# =============================================================================
+# CONTENT SOURCES
+# =============================================================================
+content_sources:
+  faq_file: docs/faq.md
+  glossary_file: docs/glossary.md
+  terminology_dir: docs/           # looks for terminology.<locale>.yaml
+
+# =============================================================================
+# DOMAIN ALIAS (Phase B — system-docs-domain skill)
+# =============================================================================
+# When set, the system-docs-domain skill configures Cloudflare DNS,
+# Cloudflare Tunnel ingress, and Traefik routing so the hostname resolves
+# directly to this system's user documentation. Leave enabled: false to
+# skip domain setup entirely.
+#
+# Architecture (from DOCKERHOST1 SoT):
+#   Cloudflare → Tunnel → Traefik (port 80) → wikijs-app:3000
+#
+# Per-system Traefik config: <TRAEFIK_DYNAMIC_CONFIG_DIR>/wikijs-<slug>.yml
+# Cloudflare credentials in .env: CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID,
+# CLOUDFLARE_TUNNEL_ID
+
+domain:
+  enabled: false                   # set true to activate this section
+  hostname: docs.example.se        # public hostname (your actual domain)
+
+  # Override the default redirect target if you want users to land somewhere
+  # other than the L2 redirect. Default is auto-derived as:
+  #   /{wiki_locale}/{system.slug}/anvandardokumentation/?lang={default_locale}
+  # Must start with /
+  # redirect_target: /sv/example/anvandardokumentation/?lang=sv
+
+  cloudflare:
+    # Apex zone. If omitted, derived from hostname (last two labels).
+    # zone: example.se
+    proxied: true                  # Cloudflare proxy on (orange cloud)
+
+  # No traefik section needed — paths and network come from .env
+  # (TRAEFIK_DYNAMIC_CONFIG_DIR, TRAEFIK_NETWORK, WIKIJS_BACKEND_URL)
+
+# =============================================================================
+# SAFETY
+# =============================================================================
+safety:
+  read_only: true                  # capture never submits forms
+  allow_mutations: false           # require explicit --allow-mutations CLI flag
+  allowed_actions: []              # whitelist of mutation actions if needed

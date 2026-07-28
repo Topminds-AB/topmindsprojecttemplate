@@ -42,6 +42,7 @@ Use the relevant subset of:
 
 - Primary test command(s):
   - `powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\template_backup_standardization_smoke.ps1`
+  - `powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\codex_startup_distribution_smoke.ps1`
 - Smoke command(s):
   - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\dbbackup_full.ps1 -SkipIfUnconfigured`
   - `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\collect_docker_logs.ps1`

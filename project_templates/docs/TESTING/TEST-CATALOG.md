@@ -107,3 +107,23 @@ Every test entry must include:
 - `forbidden_shortcuts`: `Do not keep hardcoded repo identity, do not keep unconditional pause, do not leave create_codebase.ps1 above the soft file-size limit.`
 - `test_file`: `tests/template_backup_standardization_smoke.ps1`
 - `linked_sources`: `create_codebase.ps1`, `create_codebase.bat`, `create_codebase.md`, `docs/SoT/50_standard_tooling_and_snapshots.md`
+
+### T-BTPL-004 - Warning-free Codex startup distribution
+
+- `test_id`: `T-BTPL-004`
+- `title`: `Warning-free Codex startup distribution`
+- `category`: `security-config`
+- `level`: `repo-template`
+- `goal_or_requirement`: `New repositories must receive current Codex feature configuration and complete documentation skill bundles for both Codex and Claude.`
+- `feature_or_behavior`: `The template uses features.hooks, distributes valid repo-user-documentation and system-docs-domain bundles under .agents/skills and .claude/skills, and keeps client-specific paths in the correct adapter.`
+- `created_at`: `2026-07-28 17:47`
+- `created_by`: `Codex`
+- `created_before_implementation`: yes
+- `first_run_command`: `powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\codex_startup_distribution_smoke.ps1`
+- `first_run_at`: `2026-07-28 17:47`
+- `first_run_result`: `red`
+- `current_status`: `green`
+- `runtime_or_dependencies`: `PowerShell 5.1+, complete shared skill bundles`
+- `forbidden_shortcuts`: `Do not ship only SKILL.md without its runtime resources, retain codex_hooks, embed Claude-only paths in the Codex bundle, or suppress loader warnings.`
+- `test_file`: `tests/codex_startup_distribution_smoke.ps1`
+- `linked_sources`: `.codex/config.toml`, `.agents/skills/repo-user-documentation/`, `.agents/skills/system-docs-domain/`, `.claude/skills/repo-user-documentation/`, `.claude/skills/system-docs-domain/`

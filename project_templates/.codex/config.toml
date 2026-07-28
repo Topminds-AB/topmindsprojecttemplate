@@ -2,7 +2,7 @@ model = "gpt-5.4"
 project_root_markers = [".git"]
 
 [features]
-codex_hooks = false
+hooks = false
 
 [windows]
 sandbox = "elevated"

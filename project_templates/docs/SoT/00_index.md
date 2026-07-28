@@ -36,6 +36,7 @@
 
 - **Command(s):**
   - `powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\template_backup_standardization_smoke.ps1`
+  - `powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\codex_startup_distribution_smoke.ps1`
   - `powershell -NoProfile -ExecutionPolicy Bypass -File .\create_codebase.ps1`
 - **Expected result:**
   - smoke checks pass
