@@ -29,22 +29,42 @@ This is the only repo-level agent entrypoint. Do not read `CLAUDE.md` or `GEMINI
 - Shared skills: `<OBSIDIAN_VAULT_PATH>/skills/`
 - Shared templates: `<OBSIDIAN_VAULT_PATH>/templates/`
 
-## Parallella agentkörningar
+## Parallel agent runs
 
-Större uppdrag genomförs som orkestrerade parallella agentkörningar.
+Larger assignments are executed as orchestrated parallel agent runs
+(skill family `parallella-agentkorningar` v3.0.0). There are two
+orchestration modes:
 
-- **Orkestrator:** exakt EN session åt gången äger plan, git, grindar och
-  integration. Rollen startas med skillen `orkestrator` (Claude/Codex) eller
-  genom att läsa `<OBSIDIAN_VAULT_PATH>/skills/topminds/agent-orkestrator/SKILL.md`.
-- **Utförar-agent:** startas ENDAST via ett block ur uppdragets
-  `STARTPROMPTER-ALLA.md`. Regler:
-  `<OBSIDIAN_VAULT_PATH>/skills/topminds/agent-utforare/SKILL.md`.
-- **Planer** ligger i `docs/plans/<uppdrag>-<datum>/` med
-  `1-genomforandeplan.md`, `2-exekveringsplan.md`, `STARTPROMPTER-ALLA.md`,
-  `prompts/` och `reports/`.
-- Utförar-agenter committar endast path-scoped inom eget skrivscope och kör
-  aldrig push/rebuild/purge/deploy — det är centraliserat till orkestratorn/
-  integrationsprompten.
+- **Manual mode** — skill `orkestrator` (Claude/Codex), master
+  `<OBSIDIAN_VAULT_PATH>/skills/topminds/agent-orkestrator/SKILL.md`
+  (v2.2.0): the orchestrator plans and gates; Mattias starts each executor
+  session himself from a start file.
+- **Autonomous mode** — skill `orkestrator-auto` (Claude/Codex), master
+  `<OBSIDIAN_VAULT_PATH>/skills/topminds/agent-orkestrator-auto/SKILL.md`
+  (v3.0.0): the orchestrator itself starts, monitors, and gates the
+  executors (Claude subagents / hidden headless Codex workers) without
+  Mattias between waves. The most expensive model only orchestrates, plans,
+  and quality-assures; executors run on cheaper models per the skill's
+  model policy.
+- **Orchestrator:** exactly ONE session at a time owns the plan, git, gates
+  and integration, in either mode.
+- **Executor agent:** started ONLY via a numbered standalone
+  `startprompter/<NN>-<ID>-start.md` — pasted by Mattias (manual mode) or
+  fed by the orchestrator (autonomous mode). Rules:
+  `<OBSIDIAN_VAULT_PATH>/skills/topminds/agent-utforare/SKILL.md` (v2.2.0,
+  identical rules in both modes). An executor or subagent never assumes the
+  orchestrator role.
+- **Plans** live in `docs/plans/<assignment>-<date>/` with
+  `1-genomforandeplan.md`, `2-exekveringsplan.md`, `prompts/`,
+  `startprompter/` and `reports/`.
+- Start files are append-only. Every rerun or corrected prompt gets a new
+  sequential start file; previous start files are never overwritten.
+- Executor agents commit only path-scoped within their own write scope and
+  never run push/rebuild/purge/deploy — that is centralized to the
+  orchestrator/integration prompt.
+- The orchestrator must preserve and integrate all legitimate prior work,
+  verify a clean worktree at every gate, and serialize whenever scopes or git
+  ownership are uncertain.
 
 ## Test governance
 - Obsidian is the canonical source of truth for test governance. Repo-local files are adapters and working copies.
