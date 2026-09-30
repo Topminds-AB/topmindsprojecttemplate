@@ -1,43 +1,21 @@
 ---
 name: utforare
 description: >-
-  Regler för utförar-agenter i orkestrerade parallella agentkörningar i detta
-  repo. Använd när en session startas med en separat numrerad startfil under
-  `startprompter/` — av Mattias (manuellt läge) eller av en autonom
-  orkestrator (skillen `orkestrator-auto`) — eller när en prompt hänvisar
-  till utförar-reglerna. Tunn wrapper — mastern ligger i Obsidian-vaulten.
+  Utför ett avgränsat uppdrag från en numrerad orkestrator-startfil och lämna
+  verifierad evidens till orkestratorn.
 license: Proprietary
 metadata:
   owner: Topminds
-  version: "2.2.0"
+  version: "4.0.0"
   family: parallella-agentkorningar
-  family_version: "3.0.0"
+  family_version: "4.0.0"
   mode: utforare
 ---
 
-# Utförare (wrapper)
+# Agent-utförare — wrapper
 
-> **Variant: UTFÖRARE — master `agent-utforare` v2.2.0, familj
-> `parallella-agentkorningar` v3.0.0, `mode: utforare`.** Gäller i BÅDA
-> orkestreringslägena (manuellt och autonomt); startfilen kan komma från
-> Mattias eller från en autonom orkestrator — reglerna är identiska. Anta
-> aldrig orkestratorrollen.
-
-Detta är en tunn repo-wrapper. Mastern är vault-skillen och ska läsas i sin
-helhet innan något annat görs:
-
-1. Läs `OBSIDIAN_VAULT_PATH` ur repo-rotens `.env`.
-2. Läs `<OBSIDIAN_VAULT_PATH>/skills/topminds/agent-utforare/SKILL.md`
-   och följ den.
-3. Läs därefter repots `AGENTS.md` samt uppdragets
-   `prompts/00-GEMENSAMT.md`, din exakta
-   `startprompter/<NN>-<ID>-start.md` och angiven masterprompt, enligt masterns
-   läsordning. Verifiera startfilens `master_sha256` innan arbete.
-
-Skapa aldrig filer, kataloger eller worktrees i reposamlingens rot eller som
-syskon till repot. Vid läge B måste arbetskatalogen ligga under verifierad
-extern `AGENT_WORKTREE_ROOT`; annars ska körningen rapporteras BLOCKERAD innan
-någon ändring.
-
-Saknas `OBSIDIAN_VAULT_PATH` i `.env`: stanna och rapportera BLOCKERAD —
-arbeta inte utan reglerna.
+Använd endast när uppdraget startats från en numrerad `startprompter/`-fil.
+Läs `OBSIDIAN_VAULT_PATH` från repo-rotens `.env`, följ den kanoniska
+mastern `<OBSIDIAN_VAULT_PATH>/skills/topminds/agent-utforare/SKILL.md` och
+verifiera startfilens masterhash. Orkestratorn äger plan, integration och
+centrala leveransgrindar.

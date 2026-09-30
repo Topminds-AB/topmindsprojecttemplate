@@ -1,45 +1,25 @@
 ---
 name: orkestrator
 description: >-
-  Anta rollen som orkestrator för parallella agentkörningar i detta repo —
-  äger plan, allt gitansvar, ren worktree, grindar och integration. MANUELLT
-  läge: Mattias startar utförar-sessionerna själv från startfiler. Använd när
-  Mattias startar en orkestratorsession eller beställer ett uppdrag som ska
-  genomföras av flera CLI-agenter med honom som växel. Självkörande variant:
-  skillen `orkestrator-auto`. Tunn wrapper — mastern ligger i
-  Obsidian-vaulten.
+  Planera och förbered manuella parallella agentuppdrag. Använd när Mattias
+  själv startar utförarsessionerna från startfiler.
 license: Proprietary
 metadata:
   owner: Topminds
-  version: "2.2.0"
+  version: "4.0.0"
   family: parallella-agentkorningar
-  family_version: "3.0.0"
+  family_version: "4.0.0"
   mode: manuell
 ---
 
-# Orkestrator (wrapper, manuellt läge)
+# Orkestrator — wrapper
 
-> **Variant: MANUELL — master `agent-orkestrator` v2.2.0, familj
-> `parallella-agentkorningar` v3.0.0, `mode: manuell`.** Självkörande
-> variant: skillen `orkestrator-auto` (master `agent-orkestrator-auto`
-> v3.0.0). Är du en utförar-agent/subagent med en startfil: använd skillen
-> `utforare`, inte denna.
+Läs `OBSIDIAN_VAULT_PATH` från repo-rotens `.env`. Följ sedan den kanoniska
+mastern `<OBSIDIAN_VAULT_PATH>/skills/topminds/agent-orkestrator/SKILL.md`
+och endast de direkt relevanta resurserna i samma katalog. Ladda bara den
+klientadapter som gäller för den aktuella agenten.
 
-Detta är en tunn repo-wrapper. Mastern är vault-skillen och ska läsas i sin
-helhet innan något annat görs:
-
-1. Läs `OBSIDIAN_VAULT_PATH` ur repo-rotens `.env`.
-2. Läs `<OBSIDIAN_VAULT_PATH>/skills/topminds/agent-orkestrator/SKILL.md`
-   och följ den — inklusive dess referensfiler `planmodell.md`,
-   `git-disciplin.md`, `grindprotokoll.md` samt mallarna i `mallar/`.
-3. Läs därefter repots `AGENTS.md` (sektionen "Parallel agent runs").
-
-Mastern kräver att orkestratorn bevarar och pushar allt legitimt tidigare
-arbete, håller worktree ren vid varje grind, serialiserar osäkra scope och
-skapar en separat append-only `startprompter/<NN>-<ID>-start.md` för varje
-faktisk körning. Inga filer eller worktrees får skapas i reposamlingens rot
-eller som syskon till repot. Läge B kräver en verifierad extern
-`AGENT_WORKTREE_ROOT` från repo-rotens `.env`; annars serialiseras arbetet.
-
-Saknas `OBSIDIAN_VAULT_PATH` i `.env`: stanna och be Mattias om vaultens
-sökväg — improvisera inte fram rollen utan mastern.
+För avgränsade frontendbuggar finns `agent-fix-snabb` och
+`agent-orkestrator-auto-snabb`; välj dem endast när risk och uppdragsform
+passar. En utförare med numrerad startfil följer `agent-utforare` och tar
+aldrig över orkestratorrollen.
