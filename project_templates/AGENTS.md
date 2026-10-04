@@ -180,57 +180,14 @@ Quick skills read only the repo entrypoint, applicable quick-skill contract, and
 
 ## Parallel agent runs
 
-Larger assignments use the full orchestration workflow (skill family
-`parallella-agentkorningar` v4.0.0). Match the mode to the scope:
+Use the current canonical skill in `<OBSIDIAN_VAULT_PATH>/skills/topminds/`:
+- `agent-orkestrator`: Mattias starts the executors manually.
+- `agent-orkestrator-auto`: autonomous, risk-based orchestration.
+- `agent-utforare`: scoped executor work; never assumes the orchestrator role.
+- `agent-fix-snabb`: bounded low-risk frontend fix, solo.
+- `agent-orkestrator-auto-snabb`: bounded low-risk frontend fix, exactly one cheaper executor.
 
-- **Manual mode** — skill `orkestrator` (Claude/Codex), master
-  `<OBSIDIAN_VAULT_PATH>/skills/topminds/agent-orkestrator/SKILL.md`
-  (v4.0.0): the orchestrator plans and gates; Mattias starts each executor
-  session himself from a start file.
-- **Autonomous mode** — skill `orkestrator-auto` (Claude/Codex), master
-  `<OBSIDIAN_VAULT_PATH>/skills/topminds/agent-orkestrator-auto/SKILL.md`
-  (v4.0.0): the orchestrator itself starts, monitors, and gates the
-  executors (Claude subagents / hidden headless Codex workers) without
-  Mattias between waves. The most expensive model only orchestrates, plans,
-  and quality-assures; executors run on cheaper models per the skill's
-  model policy.
-- **Solo quick fix** — `agent-fix-snabb` investigates, fixes and verifies one
-  bounded low-risk frontend bug without subagents.
-- **Autonomous quick fix** — `agent-orkestrator-auto-snabb` delegates to
-  exactly one cheaper executor and reviews the diff and evidence.
-- Quick modes use one documented real-browser scenario before and after as
-  valid evidence; they do not require the full plan/wave/report ceremony or a
-  new test file solely to repeat an existing flow. See the repo's
-  `docs/skills/50_orchestration-quick-v4.md` when available.
-- **Orchestrator:** exactly ONE session at a time owns the plan, git, gates
-  and integration, in either mode.
-- **Full-workflow executor:** starts from a numbered standalone
-  `startprompter/<NN>-<ID>-start.md` — pasted by Mattias (manual mode) or
-  fed by the orchestrator (autonomous mode). Rules:
-  `<OBSIDIAN_VAULT_PATH>/skills/topminds/agent-utforare/SKILL.md` (v4.0.0,
-  shared rules for full orchestration). An executor or subagent never assumes the
-  orchestrator role.
-- **Quick executor:** receives a short scoped task from
-  `agent-orkestrator-auto-snabb`; it does not use the full start-file/report
-  ceremony and never assumes the orchestrator role.
-- **Plans** live in `docs/plans/<assignment>-<date>/` with
-  `1-genomforandeplan.md`, `2-exekveringsplan.md`, `prompts/`,
-  `startprompter/` and `reports/`.
-- Full-workflow start files are append-only. Every rerun or corrected prompt
-  gets a new sequential start file; previous start files are never overwritten.
-  Quick executor briefs are scoped separately and do not use this numbered
-  full-workflow start-file rule.
-- In the full workflow, executors do not push/rebuild/purge/deploy unless the
-  prompt explicitly assigns it. Quick executors give a concise handoff; the
-  orchestrator owns external delivery actions.
-- Preserve unrelated and pre-existing work. Never reset, stash, clean or
-  overwrite foreign changes. Record actual state; block only dependent work
-  or serialize when ownership is uncertain. Do not claim a clean worktree
-  unless it is verified.
-- Track failed corrective attempts across sessions and prompt names: at most
-  seven per original problem. An environment root cause allows at most two
-  failed recovery attempts; each retry needs new information or a concrete
-  change. Planned RED and successful GREEN runs are not failures.
+Follow the selected master's current instructions, shared test selection and only the relevant client adapter. Do not duplicate version pins or reading lists here. The orchestrator owns integration; preserve foreign work. Quick modes do not inherit the full plan/start-file ceremony.
 
 ## Test governance
 - Obsidian is the canonical source of truth for test governance. Repo-local files are adapters and working copies.

@@ -6,9 +6,7 @@ description: >-
 license: Proprietary
 metadata:
   owner: Topminds
-  version: "4.0.0"
   family: parallella-agentkorningar
-  family_version: "4.0.0"
   mode: utforare
 ---
 
