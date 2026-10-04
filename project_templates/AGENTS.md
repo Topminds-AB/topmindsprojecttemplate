@@ -14,7 +14,7 @@ This is the only repo-level agent entrypoint. Do not read `CLAUDE.md` or `GEMINI
 - All the important paths and secrets are stored in the .env-file that lives in the project root folder. This .env must be used in the whole repo. Others must not be created.
 - You are not allowed to implement mock/fake-data unless this is strictly ordered. Follow the rules strictly that are defined in `<OBSIDIAN_VAULT_PATH>/_system/dev-standards/core/10-mock-registry-standard.md`
 - All new processes you start with Playwright, Powershell, Chrome or other external function - must be HIDDEN. You are not allowed to smash up Windows since me - the human are trying to work and have meetings.
-- Commit only your own cohesive changes. Push, rebuild, purge and deploy only when the assignment authorizes them and the repo/runtime requires them.
+- Commit only your own cohesive changes. Implementation assignments include normal release to the established intended environment: necessary push, affected rebuild/deploy/purge and post-release verification. Do not stop for a separate release approval unless Mattias explicitly requests a pre-release stop. Review/planning tasks do not trigger release. Real failures, unknown targets, tool denials and out-of-scope actions remain blockers; never bypass them. This replaces older generic opt-in release wording.
 - Tie rebuilds to changed runtime images and purge to affected public cache. Verify the actual image or purge result before reporting it. Never claim a release step that was not performed.
 - The rules for file size MUST be followed. Soft limit - 600 rows. Hard limits = 900 rows. Applies to source files such as `.py`, `.php`, `.ts`, `.js`, `.sh`, `.ps1`, `.go`, `.cs`, and similar implementation files.
 - E2E/Playwright test data that writes to Obsidian MUST use paths under `dev-projects/<repo-name>/_e2e/` in the vault — NEVER the vault root — and the Playwright global-teardown MUST delete that quarantine folder after every run.
@@ -38,7 +38,7 @@ Read [RESTLISTA.md](docs/implementation/RESTLISTA.md) before starting. Log unres
 Select individual cases proving changed behavior and concrete risks; justify extra cases before running a whole file/folder. Full suites ONLY if absolutely necessary, with the risk and inadequacy of targeted tests documented first. Phase/commit/push/rebuild never suffice. Reuse valid evidence; rerun only failed/affected checks.
 Log every test execution (including failed startup and manual browser checks) in docs/TESTING/TEST-LOG.md: time, requirement/risk and reason, command/filter or steps, revision/runtime, result/count, duration if available and rerun reason. Link per-case IDs/results; cases sharing a risk may share one reason. One row per manual scenario; no new test file/catalog entry solely for logging. This log requirement supersedes quick-track log exemptions.
 Count failed correction cycles, not commands/test cases/successes. Preserve original-problem history across names/sessions and classify product/test/environment failures. After two failed corrections, reassess the hypothesis and new evidence before retrying. Seven failed corrections/two environment recoveries and explicit user caps remain; stop only dependent work.
-Complete all original requirements plus approved changes before ending. Verify affected frontend changes in the intended running environment through the real user flow; reload saved changes. Reuse evidence, no routine duplicate/full suite. Continue authorized work; stop incomplete only for a real blocker, explicit pause or reached limit, naming remaining requirements and next steps. Continue independent work; never label partial work complete or assume deployment permission.
+Complete all original requirements plus approved changes before ending. Verify affected frontend changes in the intended running environment through the real user flow; reload saved changes. Reuse evidence, no routine duplicate/full suite. Continue authorized work; stop incomplete only for a real blocker, explicit pause or reached limit, naming remaining requirements and next steps. Continue independent work; never label partial work complete. Normal release is included in implementation work unless Mattias explicitly excludes it.
 Record learning at completion AND blocked handoff; distinguish approved, implemented and measured improvement. Proposals need human approval before changing rules.
 
 ## AGENT TEST GOVERNANCE POLICY
@@ -145,8 +145,8 @@ c. canonical worklogs, open questions, plans, SoT mirrors, and cross-repo docume
 - Update the canonical worklog when this repo's completion rules or the assignment require one.
 - Create a codebase snapshot when the repo's documented completion process requires it; verify the resulting archive.
 - Run relevant repo checks. Rebuild only affected runtime images and purge only an affected public cache; verify each claimed operation.
-- Deploy only when the assignment requires it and this repo documents the deploy process.
-- Commit and push only when authorized by the current ownership and delivery instructions.
+- Complete normal release using the documented repo process unless Mattias explicitly asks to stop before release; verify the result in the intended running environment.
+- Commit and push your own cohesive delivery changes under the current ownership rules; ordinary implementation includes release without a separate approval.
 
 # OBS: Detta block skrivs över av mallsynken — egna nycklar läggs under END-markören.
 <!-- NEXUS:GLOBAL-TEMPLATE:END:AGENTS -->
@@ -214,4 +214,4 @@ Follow the selected master's current instructions, shared test selection and onl
 - Update the canonical worklog when the repo's completion rules or the assignment require one.
 - Create a codebase snapshot when the repo's documented completion process requires it; verify the resulting archive.
 - Run relevant repo checks. Rebuild only affected runtime images and purge only an affected public cache; verify each claimed operation.
-- Deploy only when the assignment requires it and this repo documents the deploy process.
+- Complete normal release using the documented repo process unless Mattias explicitly asks to stop before release; verify the result in the intended running environment.
