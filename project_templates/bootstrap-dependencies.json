@@ -1,0 +1,19 @@
+{
+  "manifest_version": 1,
+  "dependencies": [
+    {
+      "name": "psono-agent-client",
+      "version": "59d86eb442a556088dde7473ce4f00078d1abdb4",
+      "source": "psono/scripts/psono_agent.py",
+      "path": "scripts/psono_agent.py",
+      "sha256": "2a7d39b75b2664a09eb5e08651c856235ccdd48876cff0663b627b57196e6062"
+    }
+  ],
+  "runtime_dependencies": [
+    {
+      "name": "PyNaCl",
+      "version": "1.6.2",
+      "import": "nacl"
+    }
+  ]
+}
