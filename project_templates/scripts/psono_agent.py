@@ -453,7 +453,15 @@ class PsonoAgent:
     def run_selected(self, selections: Iterable[tuple[str, str, str]], command: list[str]) -> int:
         if not command:
             raise PsonoError("a child command is required")
-        child_env = {name: value for name, value in os.environ.items() if name in SAFE_ENV_NAMES}
+        if os.name == "nt":
+            safe_names = {name.casefold(): name for name in SAFE_ENV_NAMES}
+            child_env = {
+                safe_names[name.casefold()]: value
+                for name, value in os.environ.items()
+                if name.casefold() in safe_names
+            }
+        else:
+            child_env = {name: value for name, value in os.environ.items() if name in SAFE_ENV_NAMES}
         for env_name, secret_id, field in selections:
             if not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", env_name):
                 raise PsonoError("invalid child environment variable name")

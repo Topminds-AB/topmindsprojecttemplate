@@ -3,10 +3,10 @@
   "dependencies": [
     {
       "name": "psono-agent-client",
-      "version": "59d86eb442a556088dde7473ce4f00078d1abdb4",
+      "version": "fef028ef849cd77d2064e04f3857d790a2d1aa64",
       "source": "psono/scripts/psono_agent.py",
       "path": "scripts/psono_agent.py",
-      "sha256": "2a7d39b75b2664a09eb5e08651c856235ccdd48876cff0663b627b57196e6062"
+      "sha256": "0c59c74ced24ca4103c8058187abb5f9cdc8bc59a0be9d92d375b6be25fab2ef"
     }
   ],
   "runtime_dependencies": [
