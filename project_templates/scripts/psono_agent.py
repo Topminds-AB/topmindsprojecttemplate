@@ -489,6 +489,9 @@ class PsonoAgent:
             raise PsonoError("put requires non-empty name and password strings")
         if not isinstance(notes, str):
             raise PsonoError("put notes must be a string")
+        folder_path = payload.get("folder")
+        if not isinstance(folder_path, str) or not all(part.strip() for part in folder_path.split("/")):
+            raise PsonoError("put requires 'folder': the system folder, e.g. keycloak-test or generic; never the root")
         share, root = self._load_share()
         folder = self._target_folder(root)
         if not share.get("rights", {}).get("write"):
@@ -538,7 +541,7 @@ class PsonoAgent:
             "secret_id": secret_id,
             "secret_key": secret_key.hex(),
         }
-        folder.setdefault("items", []).append(item)
+        _system_folder(folder, folder_path).setdefault("items", []).append(item)
         encrypted_share = _encrypt(json.dumps(root, separators=(",", ":")), self._share_key)
         _, updated = self._request("PUT", "/share/", {
             "share_id": self._share_id,
@@ -549,6 +552,20 @@ class PsonoAgent:
         self._share_write_date = updated.get("write_date")
         self._items.clear()
         return secret_id
+
+
+def _system_folder(base: dict[str, Any], path: str) -> dict[str, Any]:
+    """Plain subfolder for one system below the shared root; missing levels are created."""
+    node = base
+    for name in path.split("/"):
+        found = [f for f in node.get("folders", []) if f.get("name") == name and not f.get("deleted")]
+        if len(found) > 1 or (found and found[0].get("share_id")):
+            raise PsonoError("system folder is ambiguous or a separate share")
+        if not found:
+            found = [{"id": str(uuid.uuid4()), "name": name, "folders": [], "items": []}]
+            node.setdefault("folders", []).append(found[0])
+        node = found[0]
+    return node
 
 
 def _selection(text: str) -> tuple[str, str, str]:
@@ -568,7 +585,7 @@ def main(argv: list[str] | None = None) -> int:
     run = sub.add_parser("run", help="inject selected fields directly into a child process")
     run.add_argument("--with", dest="selections", action="append", type=_selection, default=[])
     run.add_argument("command", nargs=argparse.REMAINDER)
-    put = sub.add_parser("put", help="create an Application Password from JSON read on stdin")
+    put = sub.add_parser("put", help="create an Application Password from JSON on stdin (name, password, folder, notes)")
     args = parser.parse_args(argv)
     try:
         with PsonoAgent.from_env(args.env_file) as client:
