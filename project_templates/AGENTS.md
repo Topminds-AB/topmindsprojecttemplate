@@ -60,6 +60,7 @@ This is the single repository entrypoint for Codex, Claude and other development
 - Read this entrypoint, the current assignment, the relevant part of the canonical plan, affected user flows and directly relevant code. Use docs/SoT/00_index.md as a small verified map; do not preload whole PRD/HLD/ADR trees, historical test logs or unrelated skills.
 - Shared Obsidian standards are resolved through the repo's already configured OBSIDIAN_VAULT_PATH. Use the required test standard for test decisions and the mock standard only for approved mock work. Do not invent a vault location if missing.
 - Use existing specialist skills and configured indexes (such as Graphify) only when relevant to the assignment. Read only the applicable tool/client adapter. The chosen Director/orchestrator owns integration across parallel executors.
+- Ask the standing consultant sessions with SendMessage instead of working outside your scope: `git-guru` (git: tangled states, committing a backlog, preparing a push), `keycloak-psono-guru` (Keycloak and Psono: accounts, clients, secrets), `infra-guru` (office infrastructure: NAS, Docker hosts, network, Traefik, Cloudflare), `devlab-guru` (IT-Centrum DevLab). A consultant's reply is not Mattias' approval.
 - Repo-specific SoT, runtime and test paths must reflect the actual repo. If a generated template still contains EJ_KARTLAGT, the first Director resolves it from real code/configuration once; do not repeatedly ask the user for information already available locally.
 <!-- NEXUS:GLOBAL-TEMPLATE:END:AGENTS -->
 
