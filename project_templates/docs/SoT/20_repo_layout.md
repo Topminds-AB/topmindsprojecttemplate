@@ -39,9 +39,6 @@ These files must exist at repo root in a standard repo:
 - `CLAUDE.md`
 - `GEMINI.md`
 - `.env.example`
-- `create_codebase.bat`
-- `create_codebase.ps1`
-- `create_codebase.md`
 
 Optional but protected root tools:
 
@@ -57,7 +54,6 @@ Do not delete protected root tools unless the owner has explicitly confirmed tha
 
 These folders are allowed in the standard repo model:
 
-- `.codebasebackup/` — local codebase snapshots and Windows ZIP handling rules.
 - `.dbbackup/` — local database backups.
 - `.dockerlogs/` — local Docker log output.
 - `manifest/` — generated or phase-specific manifests, summaries, and reports.
@@ -137,7 +133,7 @@ Rules:
 Exemptions:
 
 - Worklogs and audit evidence.
-- Snapshot manifests.
+- Generated verification reports.
 - Generated lockfiles such as `composer.lock`, `package-lock.json`, `yarn.lock`, and equivalent package manager files.
 - Generated files that are explicitly documented as generated.
 
@@ -149,7 +145,7 @@ Enforced when the delivery profile is `STANDARD` or `AUDIT_STRICT`, or when OA e
 
 - LOC must be measured by a deterministic script in `scripts/` or by an approved repo-local command.
 - Reports must exclude generated, build, vendor, dependency, and virtual environment folders.
-- Phase snapshots should include `manifest/loc_report.txt` when LOC measurement is required.
+- Store `manifest/loc_report.txt` when LOC measurement is required by the delivery profile or OA.
 
 ---
 

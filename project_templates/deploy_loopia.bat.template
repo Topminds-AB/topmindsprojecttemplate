@@ -10,9 +10,7 @@ REM - Optional helper to deploy a project to a Loopia-hosted environment.
 REM - Keep it simple and explicit: edit ONLY the EDIT HERE section.
 REM
 REM When to run
-REM - After each completed phase (only if this repo uses Loopia deployment):
-REM     1) create_codebase.bat
-REM     2) deploy_loopia.bat
+REM - After each completed phase when this repo uses Loopia deployment.
 REM
 REM Requirements
 REM - Windows + an installed SFTP/FTP tool in PATH, or configure one below.
@@ -39,7 +37,7 @@ REM Local path to deploy (examples: .\services\app\public  or  .\dist)
 set "DEPLOY_LOCAL_PATH="
 
 REM Optional exclude patterns (space-separated)
-set "DEPLOY_EXCLUDES=node_modules .git .env .env.* .codebasebackup .dbdump .dbbackup"
+set "DEPLOY_EXCLUDES=node_modules .git .env .env.* .dbdump .dbbackup"
 
 REM ==============================================================================
 REM END EDIT HERE

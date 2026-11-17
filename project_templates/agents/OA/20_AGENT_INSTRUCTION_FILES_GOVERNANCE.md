@@ -19,5 +19,5 @@ Repo-level instruction files typically include:
 - If implementation changes significantly alter workflows, dependencies, or required steps, OA should request updates in the next phase.
 
 ## Minimum recommended content per file
-- `AGENTS.md`: entrypoints, where to find PRD/SoT/Plan, snapshot command.
+- `AGENTS.md`: entrypoints, where to find PRD/SoT/Plan, relevant verification commands.
 - `CLAUDE.md` / `GEMINI.md`: model-specific constraints, how to run tests, local commands, and repo quirks.

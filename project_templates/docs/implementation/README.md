@@ -7,4 +7,5 @@ This folder contains the phase-based implementation plan for the repo.
 
 Rule of thumb:
 - Keep phases small enough to audit and merge safely.
-- After each phase: run `create_codebase.bat` (and `deploy_loopia.bat` if Loopia is used).
+- Follow the repository's applicable verification instructions after each phase.
+- Run `deploy_loopia.bat` if Loopia is used.

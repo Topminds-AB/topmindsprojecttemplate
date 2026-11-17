@@ -3,7 +3,7 @@
 Start here:
 - `00_AO_MASTER_PROMPT.md`
 
-Windows ZIP handling (OA only):
+When reviewing a user-provided ZIP archive, follow:
 - `10_ZIP_READING_WINDOWS.md`
 - `15_WINDOWS_ZIP_HANDLING_RULES.md`
 

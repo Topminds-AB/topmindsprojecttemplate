@@ -125,10 +125,8 @@ docker-data/
 docker-compose.override.yml
 
 # ------------------------------------------------------------------------------
-# Databases / backups / snapshots (Topminds conventions)
+# Databases / backups (Topminds conventions)
 # ------------------------------------------------------------------------------
-.codebasebackup/
-.codebasebackup/**
 .dbdump/
 .dbdump/**
 .dbbackup/
@@ -137,7 +135,6 @@ manifest/
 manifest/**
 
 # NOTE: If you WANT manifest committed, remove the two lines above and commit it.
-# Many teams keep manifest inside snapshots only.
 
 # ------------------------------------------------------------------------------
 # Media / large binaries
@@ -169,7 +166,7 @@ manifest/**
 *.ai
 *.sketch
 
-# Archives / exports (optional; keep snapshots separate)
+# Archives / exports
 *.zip
 *.7z
 *.rar

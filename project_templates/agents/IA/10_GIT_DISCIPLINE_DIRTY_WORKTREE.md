@@ -2,7 +2,7 @@
 
 ## Absolute rule
 You are **not allowed** to “ignore and continue.”  
-If the repo is dirty (modified/untracked files), you must make it clean **without losing anything**, and produce evidence in the next audit ZIP.
+If the repo is dirty (modified/untracked files), preserve all existing work and produce the evidence required by the repository's normal delivery process.
 
 ## Step A — Inventory first (no guessing)
 Run:
@@ -11,7 +11,7 @@ Run:
 - `git diff`
 - `git diff --cached`
 
-Save outputs (must be included in next audit ZIP):
+Save outputs when required by the AO or repository process:
 - `logs/git_status_porcelain.txt`
 - `logs/git_diff_stat.txt`
 - `logs/git_diff.txt`
@@ -31,7 +31,7 @@ Save outputs (must be included in next audit ZIP):
 - Bucket C: delete/clean only if truly generated; if removed it must be:
   - listed in `manifest/change_summary.md`
   - explained in `manifest/agent_final_message.md`
-  - excluded by ZIP packaging rules (where applicable)
+  - handled according to repository ignore and retention rules
 
 ## Step D — Branch workflow (mandatory)
 - Create a dedicated task branch: `fix/<short-description>` (or similar).
@@ -40,14 +40,8 @@ Save outputs (must be included in next audit ZIP):
   - salvage branches contain **only Bucket B**
 - Do **not** rebase away history; keep commits auditable.
 
-## Step E — Required audit evidence in ZIP
-Include:
-- the four git evidence files above (Step A)
-- `manifest/change_summary.md` listing:
-  - Bucket A changed files
-  - salvage branch name(s) for Bucket B
-  - Bucket C cleaned files + rationale
-- `manifest/agent_final_message.md` must explicitly state:
+## Step E — Report the outcome
+The final report must state:
   - “Worktree was dirty at start”
   - bucket decisions
   - branches created

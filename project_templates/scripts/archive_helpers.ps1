@@ -1,9 +1,9 @@
 <#
 .SYNOPSIS
-    Helper functions for codebase archive creation.
+    General helper functions for filtered archive staging.
 
 .DESCRIPTION
-    Contains utility functions used by create_codebase.ps1:
+    Provides reusable archive staging functions:
     - Read-EnvFile: Reads .env files
     - Get-Timestamp: Returns formatted timestamps
     - Should-ExcludeItem: Determines exclusion rules
@@ -17,7 +17,6 @@
 
 $EXCLUDE_DIRS = @(
     '.git',
-    '.codebasebackup',
     '.dbbackup',
     '.dockerlogs',
     'dbbackup',

@@ -1,10 +1,10 @@
 # Docker Logs Requirements (Mandatory when Docker is used)
 
-If the repo uses Docker for development/testing/runtime, the audit ZIP must include `/dockerlogs/`.
+If the repo uses Docker for development/testing/runtime and the AO requests log evidence, collect it in `/dockerlogs/`.
 
 ## Preferred script
 - If repo-root `dockerlogs.bat` exists, use it.
-- If it does not exist, produce equivalent artifacts using the commands below and document them in `manifest/manifest.md`.
+- If it does not exist, produce equivalent artifacts using the commands below and report the commands used.
 
 ## Minimum required artifacts
 Place these under `/dockerlogs/`:
@@ -22,5 +22,5 @@ Place these under `/dockerlogs/`:
 - Save as: `dockerlogs/compose_config.txt`
 
 ## Rules
-- Do not include secrets.
-- If logs include tokens/credentials, redact values before packaging and document that redaction occurred (without revealing the secret).
+- Do not expose secrets.
+- If logs include tokens/credentials, redact values before sharing and report that redaction occurred (without revealing the secret).

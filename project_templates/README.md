@@ -34,6 +34,6 @@ See `docs/SoT/00_index.md` for the exact commands to run locally and run tests.
   - `agents/OA/` (Orchestration Agent rules)
 - Repo-level entry points are in: `AGENTS.md`
 
-## After each phase (mandatory)
-- Run: `create_codebase.bat`
-- If Loopia is used: `deploy_loopia.bat`
+## After each phase
+- Follow the repository's applicable verification and delivery instructions.
+- If Loopia is used: `deploy_loopia.bat`.

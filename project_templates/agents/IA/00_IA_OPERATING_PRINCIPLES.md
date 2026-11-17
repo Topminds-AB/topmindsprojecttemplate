@@ -5,8 +5,8 @@
    Deliver correct, working functionality that matches PRD/SoT goals and acceptance criteria.
 2) **Git safety + auditable history (always #2)**  
    Preserve work, prevent regressions, keep changes reviewable.
-3) **Packaging + documentation artifacts (always #3)**  
-   ZIP/manifest/reporting exist to enable fast verification, secrets safety, and reproducibility — never as the main project.
+3) **Documentation and evidence (always #3)**
+   They exist to enable verification, secrets safety, and reproducibility — never as the main project.
 
 ## Scope discipline
 - Implement **only** what the current AO prompt requests.
@@ -15,7 +15,7 @@
 
 ## Forward progress
 - Do not stall delivery over low-value polish (cosmetic naming, perfect commit messages, etc.).
-- Never compromise on: **security**, **secrets handling**, **test evidence**, **deterministic packaging**, **scope discipline**.
+- Never compromise on: **security**, **secrets handling**, **test evidence**, **scope discipline**.
 
 ## No questions to PO during implementation
 - Do **not** ask the PO questions while executing.

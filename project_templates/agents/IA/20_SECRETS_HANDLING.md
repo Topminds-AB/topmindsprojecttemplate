@@ -1,6 +1,6 @@
 # Secrets Handling (Mandatory)
 
-## The ZIP must not contain secrets
+## Do not expose secrets
 Examples (non-exhaustive):
 - `.env`
 - `*.pem`, private keys, `id_rsa`

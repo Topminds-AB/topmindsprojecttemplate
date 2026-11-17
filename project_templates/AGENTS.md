@@ -54,7 +54,7 @@ This is the single repository entrypoint for Codex, Claude and other development
 - Do not initiate releases, deployments, external changes or security-sensitive mutations beyond the user-assigned target and approved existing workflow.
 8. Git ownership and session completion
 - Inspect git status first. Preserve pre-existing changes and the work of other agents. Commit and push only changes belonging to this assignment on the established branch, through the repo's authorized workflow. Report a blocked push or conflicts accurately; never stage foreign work to make the tree clean.
-- Create and verify a codebase snapshot only if the repository's established completion procedure requires one. Do not generate heavy archives or reports automatically for each small fix.
+- Do not generate heavy archives or reports automatically for each small fix.
 - Report technical blockers with what was observed, what was corrected and what evidence is still missing. Do not present unperformed checks or unresolved approvals as completed work.
 9. Read only relevant project knowledge
 - Read this entrypoint, the current assignment, the relevant part of the canonical plan, affected user flows and directly relevant code. Use docs/SoT/00_index.md as a small verified map; do not preload whole PRD/HLD/ADR trees, historical test logs or unrelated skills.

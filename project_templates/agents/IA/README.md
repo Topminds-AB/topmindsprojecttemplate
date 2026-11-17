@@ -8,6 +8,7 @@ Key rules:
 - Git discipline: `10_*` and `15_*`
 - Secrets: `20_*`
 - Testing: `30_*`
-- Snapshot / packaging: `40_*` through `75_*`
+- Delivery identity and evidence: `40_*` through `65_*`
+- Docker logs: `75_*`
 - Questions protocol: `90_*`
 - Fail conditions: `95_*`

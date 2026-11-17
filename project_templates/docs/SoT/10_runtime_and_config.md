@@ -22,7 +22,7 @@
 Document the exact files and processes that read configuration.
 
 - **Root env example:** `.env.example`
-- **Local secrets file:** `.env` must be gitignored and must never be included in snapshots.
+- **Local secrets file:** `.env` must be gitignored and must never be committed or shared.
 - **Docker Compose:**
   - Compose file(s):
   - Profiles:
@@ -208,14 +208,10 @@ List effective values for this repo.
 
 ---
 
-## 11) Snapshot expectations
+## 11) Database backup expectations
 
-- `.env` is never included in snapshots.
-- `.env.example` is included.
-- Config files containing secrets must be excluded by `create_codebase`.
-- `create_codebase.ps1` derives project identity from repo truth and delegates DB dumps to `scripts/dbbackup_full.ps1`.
 - `scripts/dbbackup_full.ps1` writes to repo-root `.dbbackup\` and retains successful artifacts for 10 days by default.
-- Snapshot behavior and standard backup folders are documented in `docs/SoT/50_standard_tooling_and_snapshots.md`.
+- Database backup behavior is documented in `docs/SoT/50_standard_tooling_and_snapshots.md`.
 
 ---
 

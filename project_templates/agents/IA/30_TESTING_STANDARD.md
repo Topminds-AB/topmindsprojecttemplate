@@ -31,8 +31,3 @@ Must include:
 - where raw artifacts live (relative paths under `test-results/`)
 - if any test skipped: reason + impact assessment
 - confirmation Playwright was headless + how enforced
-
-## ZIP exclusion rule for huge test-report ZIPs
-To keep audit ZIP small:
-- Any `.zip` files located anywhere under `test-results/` MUST be excluded from the audit ZIP.
-- Reports still must be generated under `test-results/` — just don’t package `.zip` artifacts from that subtree.
