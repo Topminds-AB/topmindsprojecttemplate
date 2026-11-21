@@ -1,8 +1,6 @@
 ---
 name: agent-fix-snabb
-description: >-
-  Fixa och verifiera en avgränsad låg-risk frontendbugg själv genom ett
-  verkligt headless browserflöde. Använd när delegering ger merarbete.
+description: Fix a bounded low-risk frontend bug solo with real browser evidence.
 license: Proprietary
 metadata:
   owner: Topminds
@@ -10,9 +8,10 @@ metadata:
   mode: solo-snabb
 ---
 
-# Agent-fix-snabb — wrapper
+# agent-fix-snabb — wrapper
 
-Läs `OBSIDIAN_VAULT_PATH` från repo-rotens `.env` och följ den kanoniska
-mastern `<OBSIDIAN_VAULT_PATH>/skills/topminds/agent-fix-snabb/SKILL.md`.
-Läs det gemensamma browserkontraktet och lärandeflödet där mastern pekar ut;
-ladda endast relevant klientadapter.
+Resolve `OBSIDIAN_VAULT_PATH` from the repository root `.env`.
+Follow `<OBSIDIAN_VAULT_PATH>/skills/topminds/agent-fix-snabb/SKILL.md`
+and its relevant shared learning contract from start through closure.
+Load only the adapter for the current client. The canonical master owns
+role boundaries, approved guidance, evidence and integration rules.

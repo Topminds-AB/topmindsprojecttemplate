@@ -1,10 +1,53 @@
 # SoT — 10 Runtime & Config
 
+<!-- NEXUS:GLOBAL-TEMPLATE:START:SOT-10 -->
+> **Managed block.** The text between the markers is updated centrally through Nexus and must not be edited in this repo. Write project values **below** the block.
+
 > **Purpose:** Make configuration and runtime behavior predictable across environments.
 > **Rule:** List only variables actually used by this repo or required by the standard repo workflow.
-> **Keep updated:** Update this file when env vars, ports, URLs, config entrypoints, or runtime commands change.
+> **Keep updated:** Update the project values below when env vars, ports, URLs, config entrypoints, or runtime commands change.
 
 ---
+
+## Standard repo workflow variables
+
+These variables are part of the standard repository workflow and may be used by agents, scripts, or documentation tooling.
+
+| Variable | Used by | Required | Notes |
+|---|---|---:|---|
+| OBSIDIAN_VAULT_PATH | Agents, documentation workflow, shared skills lookup | Yes, when Obsidian integration is used | Points to the local Obsidian vault root. Example value belongs in `.env.example`; secrets do not. |
+
+Expected `.env.example` entry:
+
+```env
+OBSIDIAN_VAULT_PATH=D:\Dropbox\Obsidian\Vaults\Topminds
+```
+
+Do not hardcode this path in scripts or documentation outside `.env.example`. Scripts must read the value from the environment or from the repo-approved config loading mechanism.
+
+---
+
+## Database backup expectations
+
+- `scripts/dbbackup_full.ps1` writes to repo-root `.dbbackup\` and retains successful artifacts for 10 days by default.
+- Database backup behavior is documented in `docs/SoT/50_standard_tooling_and_snapshots.md`.
+
+---
+
+## Cloudflare cache purge support
+
+The repo-level helpers `scripts/purge-cloudflare.ps1` and `scripts/purge-cloudflare.sh` read Cloudflare credentials from the repo `.env` by default.
+
+| Variable | Used by | Required | Notes |
+|---|---|---:|---|
+| CLOUDFLARE_API_TOKEN | `scripts/purge-cloudflare.*` | Yes | Primary token source for Cloudflare purge requests. |
+| CLOUDFLARE_ZONE_ID | `scripts/purge-cloudflare.*` | No | Optional optimization. If absent, the script resolves the zone from `SITE_DOMAIN`. |
+
+The reserve token path must not be hardcoded in repo config. The scripts resolve it from `OBSIDIAN_VAULT_PATH/_keys/Cloudflare.md` only when the explicit reserve-token switch is used.
+
+<!-- NEXUS:GLOBAL-TEMPLATE:END:SOT-10 -->
+
+# Project values
 
 ## 1) Environments
 
@@ -42,26 +85,7 @@ Document the exact files and processes that read configuration.
   -
 
 ---
-
-## 3) Standard repo workflow variables
-
-These variables are part of the standard repository workflow and may be used by agents, scripts, or documentation tooling.
-
-| Variable | Used by | Required | Notes |
-|---|---|---:|---|
-| OBSIDIAN_VAULT_PATH | Agents, documentation workflow, shared skills lookup | Yes, when Obsidian integration is used | Points to the local Obsidian vault root. Example value belongs in `.env.example`; secrets do not. |
-
-Expected `.env.example` entry:
-
-```env
-OBSIDIAN_VAULT_PATH=D:\Dropbox\Obsidian\Vaults\Topminds
-```
-
-Do not hardcode this path in scripts or documentation outside `.env.example`. Scripts must read the value from the environment or from the repo-approved config loading mechanism.
-
----
-
-## 4) Core app settings
+## 3) Core app settings
 
 Keep only variables used by this repo. Remove unused rows when converting the template into a real repo.
 
@@ -81,9 +105,9 @@ Keep only variables used by this repo. Remove unused rows when converting the te
 
 ---
 
-## 5) Database settings
+## 4) Database settings
 
-### 5.1 Primary database
+### 4.1 Primary database
 
 | Variable | Used by | Required | Notes |
 |---|---|---:|---|
@@ -98,7 +122,7 @@ Keep only variables used by this repo. Remove unused rows when converting the te
 | DB_BACKUP_PROFILE | `scripts/dbbackup_full.ps1` | No | Required when the repo exposes multiple viable DB targets. |
 | DB_SSL_MODE | `scripts/dbbackup_full.ps1` | No |  |
 
-### 5.2 Local/dev database
+### 4.2 Local/dev database
 
 Use `MYSQL_*` for local MySQL. Use `POSTGRES_*` for local PostgreSQL. These remain compatibility aliases and are not the canonical backup contract.
 
@@ -117,7 +141,7 @@ Use `MYSQL_*` for local MySQL. Use `POSTGRES_*` for local PostgreSQL. These rema
 
 ---
 
-## 6) Cache and sessions
+## 5) Cache and sessions
 
 | Variable | Used by | Required | Notes |
 |---|---|---:|---|
@@ -129,7 +153,7 @@ Use `MYSQL_*` for local MySQL. Use `POSTGRES_*` for local PostgreSQL. These rema
 
 ---
 
-## 7) Email
+## 6) Email
 
 | Variable | Used by | Required | Notes |
 |---|---|---:|---|
@@ -143,11 +167,11 @@ Use `MYSQL_*` for local MySQL. Use `POSTGRES_*` for local PostgreSQL. These rema
 
 ---
 
-## 8) AI configuration
+## 7) AI configuration
 
 If this repo uses AI, list provider and routing variables actually referenced in code. Remove provider sections that are not used.
 
-### 8.1 Routing
+### 7.1 Routing
 
 | Variable | Used by | Required | Notes |
 |---|---|---:|---|
@@ -156,7 +180,7 @@ If this repo uses AI, list provider and routing variables actually referenced in
 | AI_REQUEST_TIMEOUT_SECONDS |  |  |  |
 | AI_RETRIES |  |  |  |
 
-### 8.2 Providers
+### 7.2 Providers
 
 | Variable | Used by | Required | Notes |
 |---|---|---:|---|
@@ -179,7 +203,7 @@ If this repo uses AI, list provider and routing variables actually referenced in
 
 ---
 
-## 9) Storage
+## 8) Storage
 
 | Variable | Used by | Required | Notes |
 |---|---|---:|---|
@@ -194,7 +218,7 @@ If this repo uses AI, list provider and routing variables actually referenced in
 
 ---
 
-## 10) Ports and endpoints
+## 9) Ports and endpoints
 
 List effective values for this repo.
 
@@ -207,28 +231,7 @@ List effective values for this repo.
 - **Other:**
 
 ---
-
-## 11) Database backup expectations
-
-- `scripts/dbbackup_full.ps1` writes to repo-root `.dbbackup\` and retains successful artifacts for 10 days by default.
-- Database backup behavior is documented in `docs/SoT/50_standard_tooling_and_snapshots.md`.
-
----
-
-## 12) Cloudflare cache purge support
-
-The repo-level helpers `scripts/purge-cloudflare.ps1` and `scripts/purge-cloudflare.sh` read Cloudflare credentials from the repo `.env` by default.
-
-| Variable | Used by | Required | Notes |
-|---|---|---:|---|
-| CLOUDFLARE_API_TOKEN | `scripts/purge-cloudflare.*` | Yes | Primary token source for Cloudflare purge requests. |
-| CLOUDFLARE_ZONE_ID | `scripts/purge-cloudflare.*` | No | Optional optimization. If absent, the script resolves the zone from `SITE_DOMAIN`. |
-
-The reserve token path must not be hardcoded in repo config. The scripts resolve it from `OBSIDIAN_VAULT_PATH/_keys/Cloudflare.md` only when the explicit reserve-token switch is used.
-
----
-
-## 13) Change log for config
+## 10) Change log for config
 
 Add a short note each time env var usage, ports, URLs, or config loading changes.
 

@@ -29,10 +29,8 @@
 See `docs/SoT/00_index.md` for the exact commands to run locally and run tests.
 
 ## Agent workflow
-- This repo uses `/agents`:
-  - `agents/IA/` (Implementation Agent rules)
-  - `agents/OA/` (Orchestration Agent rules)
-- Repo-level entry points are in: `AGENTS.md`
+- The only repo-level agent entry point is `AGENTS.md`.
+- File classes (which files agents may edit) are listed in `.nexus/file-classes.json` when present.
 
 ## After each phase
 - Follow the repository's applicable verification and delivery instructions.

@@ -112,7 +112,7 @@ Canonical durable worklogs are stored in Obsidian:
 
 1. a fallback when Obsidian is unavailable,
 2. a local staging area before content is moved to Obsidian, or
-3. project-specific evidence when OA explicitly requires repo-local worklog material.
+3. project-specific evidence when the Director explicitly requires repo-local worklog material.
 
 When `docs/worklogs/` is used as fallback or staging, the reason must be documented in the entry.
 

@@ -1,7 +1,10 @@
 # SoT — 20 Repository Layout
 
+<!-- NEXUS:GLOBAL-TEMPLATE:START:SOT-20 -->
+> **Managed block.** The text between the markers is updated centrally through Nexus and must not be edited in this repo. Write project-specific layout facts **below** the block.
+
 > **Purpose:** Define the standard repository layout, stable root files, hygiene rules, and boundaries that keep projects maintainable.
-> **Owner:** OA owns the layout standard. IA keeps this file current when implementation changes the actual structure.
+> **Owner:** the managed block is the shared layout standard, updated centrally through Nexus. The Director keeps the project section below current when implementation changes the actual structure.
 
 ---
 
@@ -58,7 +61,6 @@ These folders are allowed in the standard repo model:
 - `.dockerlogs/` — local Docker log output.
 - `manifest/` — generated or phase-specific manifests, summaries, and reports.
 - `docs/` — repo-local documentation.
-- `agents/` — repo-local agent material only.
 - `scripts/` — automation and helper scripts.
 - `services/` — backend or service components when used.
 - `apps/` — frontend or app components when used.
@@ -92,8 +94,6 @@ docs/
     70_test_governance.md
   TESTING/
     TEST-STRATEGY.md
-    TEST-CATALOG.md
-    TEST-LOG.md
   implementation/
     PLAN.md
   ADR/
@@ -128,7 +128,7 @@ Applies to source files such as `.py`, `.php`, `.ts`, `.js`, `.sh`, `.ps1`, `.go
 Rules:
 
 - A source file above the soft limit requires a short justification in `manifest/change_summary.md` and a split plan.
-- A source file above the hard limit must be treated as not approved until split or explicitly accepted by OA/PO.
+- A source file above the hard limit must be treated as not approved until split or explicitly accepted by Mattias.
 
 Exemptions:
 
@@ -141,24 +141,24 @@ Exemptions:
 
 ## 7) LOC measurement
 
-Enforced when the delivery profile is `STANDARD` or `AUDIT_STRICT`, or when OA explicitly requests it.
+Enforced when the delivery profile is `STANDARD` or `AUDIT_STRICT`, or when the Director explicitly requests it.
 
 - LOC must be measured by a deterministic script in `scripts/` or by an approved repo-local command.
 - Reports must exclude generated, build, vendor, dependency, and virtual environment folders.
-- Store `manifest/loc_report.txt` when LOC measurement is required by the delivery profile or OA.
+- Store `manifest/loc_report.txt` when LOC measurement is required by the delivery profile or the Director.
 
 ---
 
 ## 8) Change budget
 
-Enforced when the delivery profile is `STANDARD` or `AUDIT_STRICT`, or when OA explicitly requests it.
+Enforced when the delivery profile is `STANDARD` or `AUDIT_STRICT`, or when the Director explicitly requests it.
 
 Default guidance:
 
 - `MAX_CHANGED_FILES = 10`, excluding migrations and tests-only tasks.
 - `MAX_DIFF_LOC = 800`.
 
-If a phase exceeds the budget, OA should call it out and PO decides whether the phase should continue or be split.
+If a phase exceeds the budget, the Director should call it out and Mattias decides whether the phase should continue or be split.
 
 ---
 
@@ -179,3 +179,16 @@ Each ADR should include:
 - Alternatives considered.
 - Consequences.
 - Links to related PRD, HLD, PLAN, issues, or commits.
+<!-- NEXUS:GLOBAL-TEMPLATE:END:SOT-20 -->
+
+## Project layout (this repo)
+
+| Question | Verified value | Source |
+|---|---|---|
+| Components and their root folders | `EJ_KARTLAGT` | `EJ_KARTLAGT` |
+| Optional standard folders actually used | `EJ_KARTLAGT` | `EJ_KARTLAGT` |
+| Generated folders and where they come from | `EJ_KARTLAGT` | `EJ_KARTLAGT` |
+
+## Approved deviations
+
+Record each deviation from the managed standard with a link to its ADR. None recorded yet.

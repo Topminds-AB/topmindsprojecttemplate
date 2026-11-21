@@ -1,164 +1,72 @@
-# SoT — 00 Index
+# SoT – 00 Repository Index
 
-> **Purpose:** A 2–5 minute map of this repo. Keep it short, current, and practical.
-> **Owner:** PO owns content, OA owns structure, IA keeps it current when implementing changes.
+<!-- NEXUS:GLOBAL-TEMPLATE:START:SOT-00 -->
+> **Styrt block.** Texten mellan markörerna uppdateras centralt via Nexus och får inte ändras i repot. Projektets egna uppgifter skrivs **under** blocket.
 
----
+> **Typ:** generell projektmall för DevLab-repon. **Ägare:** projektets Director. **Mål:** hitta rätt källor och körkommandon utan att läsa hela dokumentationssamlingen.
 
-## 1) What this system is
+## Engångsinitiering – före första utvecklingsuppdraget
 
-- **Product:**
-- **Primary users:**
-- **Core outcome:**
-- **Non-goals:**
+Projektdelen nedan innehåller **inga förvalda projektfakta**. Den agent som initierar projektet granskar befintliga källor och fyller endast i verifierade värden. Det är agentens arbete, inte en uppgift för projektägaren.
 
----
+Ordningen är: läs rotens `AGENTS.md` → kontrollera faktisk repo-struktur och konfiguration → dokumentera källhänvisning och körkommandon → börja utveckla. Finns inte uppgiften skrivs **`SAKNAS`**; gissa inte repo, värd, tjänst, kommando eller inloggning. **`EJ_KARTLAGT` är en tydlig initialstatus, inte ett färdigt projektresultat.** Vid senare ändringar justerar Director endast de rader som berörs.
 
-## 2) Delivery profile
+Kommandon fylls från **befintliga** skript, projektkonfigurationer, CI-definitioner och den faktiska körmiljön. Dokumentera inte ett kommando som inte har verifierats i repot. Behörigheter, hemligheter och produktionsmål får inte uppfinnas eller ändras för att fylla tabellen. En verifiering får aldrig påstås ha körts om kommandot, målet eller resultatet saknar faktiskt underlag.
 
-- **Current profile:** `MVP_FAST | STANDARD | AUDIT_STRICT`
-- **Notes:**
+## Dokument att öppna – endast vid behov
 
----
+| Behov | Källa | Läsregel |
+|---|---|---|
+| Agentregler, säkerhet och arbetssätt | `AGENTS.md` i reporoten | Läs vid start och när regler ändras. |
+| Vilka filer som får ändras | `.nexus/file-classes.json` **om filen finns** | `LOCKED` och `NEXUS_GENERATED` ändras aldrig i repot; i `MANAGED_BLOCK`-filer ändras bara projektdelen utanför markörerna. |
+| Aktuell uppgift och delpaket | Den kanoniska projektplanen (se projektdelen) | Läs **relevant del**, inte hela historiken. |
+| Verkliga användarflöden | `USER-FLOWS.md` **om filen finns**, annars faktisk kravkälla | Läs endast berörda flöden. |
+| Övriga krav och arkitektur | Faktisk PRD/HLD/ADR **när de finns** | Läs endast vid konkret krav- eller arkitekturfråga. |
+| Gemensam testpolicy | `<OBSIDIAN_VAULT_PATH>/_system/dev-standards/core/07-test-and-evidence-standard.md` | Bindande vid val och körning av test. |
+| Repo-lokal teststyrning | `docs/SoT/70_test_governance.md` och `docs/TESTING/TEST-STRATEGY.md` | Läs vid testplanering, inte vid varje kodrad. |
+| Mockdata, endast vid tillåten mock | `docs/SoT/mock.md` och `docs/SoT/mock-registry.jsonl` | Verifiera faktiska poster, banner och länkmärkning. |
 
-## 3) Quickstart
+`CLAUDE.md` och `GEMINI.md` får peka på `AGENTS.md`, men ska inte introducera en konkurrerande uppsättning regler. Filer som **inte finns i det aktuella repot ska inte efterfrågas som obligatorisk läsning**.
 
-### Local run
+## Testning, status och evidens
 
-- **Prerequisites:**
-- **Command(s):**
-  -
-- **Local URL(s):**
-  -
-- **Default dev credentials:** Only non-secret values may be documented here.
+- **En testpolicy:** Obsidian 07, med fast ändringstabell. SoT/70 är endast en pekare och TEST-STRATEGY innehåller **projektets verkliga** kommandon/mappningar.
+- **Ordning:** skriv acceptansfall och testpaket i projektplanen före kod → bygg högst fem leveranspunkter → skapa/kör de körbara testerna efter delpaketet → riktade omprov efter rättningar → en relevant fasgrind på slutversionen. Ingen obligatorisk RED eller trippelsvit.
+- **En statuskälla:** projektets etablerade `PLAN.md`/projektplan. Ingen obligatorisk `TEST-CATALOG.md`, `TEST-LOG.md` eller separat manuell körkvittens.
+- **Verklig funktion:** verifiera avsedd körmiljö och godkända identiteter; mockad eller enbart databasseedad funktion räcker inte som bevis på verkligt användarflöde.
 
-### Tests
+## Underhåll
 
-- **Command(s):**
-  - `powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\template_backup_standardization_smoke.ps1`
-  - `powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\codex_startup_distribution_smoke.ps1`
-  - `powershell -NoProfile -ExecutionPolicy Bypass -File .\create_codebase.ps1`
-- **Expected result:**
-  - smoke checks pass
-  - a fresh verified ZIP appears in `.codebasebackup\`
-- **Governed test docs:**
-  - `docs/SoT/70_test_governance.md`
-  - `docs/TESTING/TEST-STRATEGY.md`
-  - `docs/TESTING/TEST-CATALOG.md`
-  - `docs/TESTING/TEST-LOG.md`
+Uppdatera projektdelen bara när projektets faktiska körväg, viktiga komponenter, giltiga kommandon eller källhänvisningar förändras. Skapa inte kopior av fasstatus, testloggar eller fullständiga PRD/HLD-avsnitt här.
+<!-- NEXUS:GLOBAL-TEMPLATE:END:SOT-00 -->
 
----
+## 1. Projektuppgifter
 
-## 4) Source of Truth files
+| Projektuppgift | Verifierat värde | Källa i repot |
+|---|---|---|
+| Projektnamn och syfte | `EJ_KARTLAGT` | `EJ_KARTLAGT` |
+| Reporot och ansvarig kodbas | `EJ_KARTLAGT` | `EJ_KARTLAGT` |
+| Användare och viktigaste användarflöde | `EJ_KARTLAGT` | `EJ_KARTLAGT` |
+| Teknikstack och huvudkomponenter | `EJ_KARTLAGT` | `EJ_KARTLAGT` |
+| Verklig utvecklings-/testmålmiljö | `EJ_KARTLAGT` | `EJ_KARTLAGT` |
+| Kanonisk projektplan | `EJ_KARTLAGT` | `EJ_KARTLAGT` |
 
-Read these files before making structural, runtime, documentation, or agent-workflow changes:
+## 2. Faktiska kommandon och körmiljö
 
-1. `docs/SoT/00_index.md` — repo map and canonical links.
-2. `docs/SoT/10_runtime_and_config.md` — runtime, environment variables, ports, endpoints, and config rules.
-3. `docs/SoT/20_repo_layout.md` — repo layout, stable root files, standard tooling, and repo hygiene.
-4. `docs/SoT/30_documentation_boundaries.md` — what belongs in repo and what belongs in Obsidian.
-5. `docs/SoT/40_agent_workflow.md` — repo-local agent workflow and source order.
-6. `docs/SoT/50_standard_tooling_and_snapshots.md` — snapshot tooling, backup folders, logs, and standard helper scripts.
-7. `docs/SoT/70_test_governance.md` — repo-local test governance adapter and links to the canonical Obsidian rule.
+| Operation | Verifierat kommando eller etablerat flöde | Körmål | Status |
+|---|---|---|---|
+| Starta aktuell applikation | `EJ_KARTLAGT` | `EJ_KARTLAGT` | `EJ_KARTLAGT` |
+| Statisk kontroll (bygg, lint, typer) | `EJ_KARTLAGT` | `EJ_KARTLAGT` | `EJ_KARTLAGT` |
+| Kör riktat funktionstest | Se `docs/TESTING/TEST-STRATEGY.md` | `EJ_KARTLAGT` | `EJ_KARTLAGT` |
+| Verifiera verkligt användarflöde | `EJ_KARTLAGT` | `EJ_KARTLAGT` | `EJ_KARTLAGT` |
+| Installera/verifiera ändrad version | `EJ_KARTLAGT` | `EJ_KARTLAGT` | `EJ_KARTLAGT` |
 
----
+## 3. Arkitektur – verkliga referenser
 
-## 5) Repo map
-
-Keep this aligned with the actual repository.
-
-- `README.md` → human entrypoint.
-- `AGENTS.md` → only canonical repo-level agent entrypoint.
-- `CLAUDE.md` → short adapter pointing to `AGENTS.md`.
-- `GEMINI.md` → short adapter pointing to `AGENTS.md`.
-- `.env.example` → committed example configuration; secrets must not be included.
-- `scripts/purge-cloudflare.ps1` and `scripts/purge-cloudflare.sh` → Cloudflare cache purge helpers that read repo config from `.env`.
-- `.codebasebackup/` → local snapshot storage and Windows ZIP handling rules.
-- `.dbbackup/` → local database backup storage.
-- `.dockerlogs/` → local Docker log output.
-- `manifest/` → generated or phase-specific manifests and summaries.
-- `docs/HLD/` → high-level design.
-- `docs/PRD/` → product requirements.
-- `docs/SoT/` → repo-local source of truth.
-- `docs/TESTING/` → governed test strategy, catalog, and execution log.
-- `docs/implementation/` → implementation plans and evidence.
-- `docs/ADR/` → architecture decisions when needed.
-- `docs/worklogs/` → fallback or local worklog notes only when the Obsidian rule allows it.
-- `agents/` → repo-local agent material only.
-- `scripts/` → automation, helpers, and supporting scripts.
-- `services/` → backend or service components when used.
-- `apps/` → frontend or app components when used.
-- `packages/` or `libs/` → shared code when used.
-- `infra/` → infrastructure and deployment definitions when used.
-- `tests/` → automated tests when used.
-- `storage/` → local runtime storage, normally gitignored.
-
----
-
-## 6) Architecture
-
-Link to `docs/HLD/HLD.md` for details.
-
-- **Components:**
-  -
-- **Data flow:**
-  -
-- **External dependencies:**
-  -
-- **Hosting/runtime:**
-  -
-
----
-
-## 7) Data stores
-
-- **Primary DB engine:**
-- **Migrations/schema source:**
-- **Dumps:** Document where dumps live, how they are created, and whether they are included in snapshots.
-- **Vector store:**
-
----
-
-## 8) Configuration
-
-The canonical configuration inventory lives in `docs/SoT/10_runtime_and_config.md`.
-
-- **Config entrypoints:**
-- **Secrets policy:** `.env` is gitignored. `.env.example` is committed and must contain example keys only.
-- **Obsidian vault variable:** `OBSIDIAN_VAULT_PATH` must exist in `.env.example` when agents or tooling need shared Obsidian documentation.
-
----
-
-## 9) Key flows
-
-1. Purge Cloudflare cache after HTML or routing changes when repo config points to a Cloudflare-fronted hostname.
-2.
-3.
-
----
-
-## 10) Known risks and tech debt
-
--
--
-
----
-
-## 11) Canonical links
-
-- **Runtime and config:** `docs/SoT/10_runtime_and_config.md`
-- **Repo layout:** `docs/SoT/20_repo_layout.md`
-- **Documentation boundaries:** `docs/SoT/30_documentation_boundaries.md`
-- **Agent workflow:** `docs/SoT/40_agent_workflow.md`
-- **Standard tooling and snapshots:** `docs/SoT/50_standard_tooling_and_snapshots.md`
-- **Test governance:** `docs/SoT/70_test_governance.md`
-- **Test strategy:** `docs/TESTING/TEST-STRATEGY.md`
-- **Test catalog:** `docs/TESTING/TEST-CATALOG.md`
-- **Test log:** `docs/TESTING/TEST-LOG.md`
-- **HLD:** `docs/HLD/HLD.md`
-- **PRD:** `docs/PRD/PRD.md`
-- **Implementation plan:** `docs/implementation/PLAN.md`
-- **ADR folder:** `docs/ADR/`
-- **Obsidian project folder:** `<OBSIDIAN_VAULT_PATH>/dev-projects/<repo-name>/`
-- **Obsidian system pages:** `<OBSIDIAN_VAULT_PATH>/wiki/systems/<system>/`
-- **Obsidian runbooks and FAQ:** `<OBSIDIAN_VAULT_PATH>/_system/runbooks/<system>/`
+| Fråga | Verifierat svar eller källhänvisning |
+|---|---|
+| Vilken komponent tar emot användarens begäran? | `EJ_KARTLAGT` |
+| Var finns tjänstelogik och externa integrationer? | `EJ_KARTLAGT` |
+| Var lagras beständiga data och hur migreras de? | `EJ_KARTLAGT` |
+| Var ligger driftskonfiguration utan hemligheter? | `EJ_KARTLAGT` |
+| Hur kontrolleras ändringen i verkligt körande version? | `EJ_KARTLAGT` |

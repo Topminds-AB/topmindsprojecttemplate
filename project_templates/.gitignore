@@ -1,3 +1,6 @@
+# NEXUS:GLOBAL-TEMPLATE:START:GITIGNORE
+# Managed block: updated centrally through Nexus. Do not edit between the markers.
+# Add project-specific ignore rules below the END marker.
 # ==============================================================================
 # Topminds — Universal .gitignore (v1.0)
 # Goal: safe defaults across Python/Node/PHP/Docker + media-heavy projects.
@@ -200,3 +203,8 @@ uploads/
 
 # Runtime sockets
 *.sock
+# NEXUS:GLOBAL-TEMPLATE:END:GITIGNORE
+
+# ------------------------------------------------------------------------------
+# Project-specific ignore rules
+# ------------------------------------------------------------------------------

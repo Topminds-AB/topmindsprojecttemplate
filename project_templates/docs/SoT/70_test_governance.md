@@ -1,66 +1,26 @@
-# SoT — 70 Test Governance
+# SoT – 70 Test Governance (repo-adapter)
 
-> **Purpose:** Define the repo-local adapter for governed testing.  
-> **Canonical rule:** Obsidian is the source of truth: `<OBSIDIAN_VAULT_PATH>/_system/dev-standards/core/07-test-and-evidence-standard.md`.
+> **Typ:** generell adapter för nya DevLab-repon. Innehåller **inga egna undantag eller nya testgrindar**.
 
----
+## En gemensam regelkälla
 
-## 1) Canonical source
+- **Obligatorisk process och fast ändringstabell:** `<OBSIDIAN_VAULT_PATH>/_system/dev-standards/core/07-test-and-evidence-standard.md`.
+- **Projektets faktiska körkommandon, miljö och testmappning:** `docs/TESTING/TEST-STRATEGY.md`.
+- **Aktuella acceptansfall, valda paket och resultat:** projektets befintliga kanoniska plan enligt `AGENTS.md` och `docs/SoT/00_index.md`.
 
-- Repo-local files in `docs/TESTING/` are working copies and local truth for this repo.
-- The normative cross-repo policy lives in Obsidian.
-- Agents must not invent weaker local rules than the Obsidian standard.
+Den gemensamma 07-standarden gäller för alla delpaket. **Director** ansvarar för testval enligt ändringstabellen och för att den repo-lokala mappningen beskriver verklig kod och verkliga testvägar. En lokal strategi får bara tillföra tekniska uppgifter som har verifierats i just detta repo.
 
----
+## Det här får inte återinföras lokalt
 
-## 2) Required local files
+- Körbara tester, obligatorisk röd testkörning eller separat RED-kvitto före implementation.
+- Manuell registrering av varje nytt test i `TEST-CATALOG.md`.
+- Separat manuell `TEST-LOG.md`-post för varje omkörning.
+- Automatisk två- eller trippelkörning av oförändrade gröna helsviter.
+- Fritt val att hoppa över ett paket som ändringstabellen kräver.
+- Mockade integrationer som påstås bevisa verklig produktfunktion.
 
-- `docs/TESTING/TEST-STRATEGY.md`
-- `docs/TESTING/TEST-CATALOG.md`
-- `docs/TESTING/TEST-LOG.md`
+## Så används filen i ett nytt repo
 
----
+Vid första uppstarten identifierar Director **faktiskt** testmål, befintligt testverktyg och möjliga testkommandon, och uppdaterar enbart `docs/TESTING/TEST-STRATEGY.md` och projektets etablerade plan. Om en obligatorisk integration inte kan verifieras anges den som **BLOCKERAD**; den ersätts inte av en låtsaskörning.
 
-## 3) Required workflow
-
-For every new governed test:
-
-1. Register the test in `docs/TESTING/TEST-CATALOG.md`.
-2. Create the test.
-3. Run the first qualifying execution red before implementation when the behavior is not yet correct.
-4. Record that execution in `docs/TESTING/TEST-LOG.md`.
-5. Implement only after the red baseline is captured.
-6. Record later meaningful runs in the log with the latest run first.
-
----
-
-## 4) Forbidden patterns
-
-- mocks
-- stubs
-- fixtures
-- fake integrations
-- synthetic business data
-- post-implementation tests presented as test-first
-- governed test runs omitted from the log
-
-Any exception requires an ADR-approved deviation.
-
----
-
-## 5) Standard categories
-
-Use these category labels when they fit:
-
-- `frontend-ui`
-- `frontend-component`
-- `api-contract`
-- `backend-unit`
-- `backend-integration`
-- `database-migration`
-- `smoke-runtime`
-- `e2e-browser`
-- `security-config`
-- `import-data`
-- `ai-provider-boundary`
-- `human-validation`
+För mockad frontend i uttryckligen godkänd designfas gäller den separata standarden `<OBSIDIAN_VAULT_PATH>/_system/dev-standards/core/10-mock-registry-standard.md` samt repo-lokala `docs/SoT/mock.md`. Tidigare historiska loggar och testkataloger från andra projekt får aldrig kopieras hit.

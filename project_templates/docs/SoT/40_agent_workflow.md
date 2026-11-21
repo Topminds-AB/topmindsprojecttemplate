@@ -1,5 +1,8 @@
 # SoT — 40 Agent Workflow
 
+<!-- NEXUS:GLOBAL-TEMPLATE:START:SOT-40 -->
+> **Managed block.** The text between the markers is updated centrally through Nexus and must not be edited in this repo. Write project-specific agent notes **below** the block.
+
 > **Purpose:** Define the repo-local agent workflow and how agents find shared rules.
 > **Rule:** `AGENTS.md` is the only canonical repo-level agent entrypoint. Other root agent files are short adapters.
 
@@ -29,11 +32,9 @@ For normal repo work, read in this order:
 7. `docs/SoT/50_standard_tooling_and_snapshots.md`
 8. `docs/SoT/70_test_governance.md`
 9. `docs/TESTING/TEST-STRATEGY.md`
-10. `docs/TESTING/TEST-CATALOG.md`
-11. `docs/TESTING/TEST-LOG.md`
-12. `docs/PRD/PRD.md`
-13. `docs/HLD/HLD.md`
-14. `docs/implementation/PLAN.md`
+10. `docs/PRD/PRD.md`
+11. `docs/HLD/HLD.md`
+12. `docs/implementation/PLAN.md` (or the canonical plan named in `docs/SoT/00_index.md`)
 
 Read additional repo files only when the task requires them.
 
@@ -76,9 +77,10 @@ Canonical durable worklogs are written to Obsidian:
 
 ## 5) Agent roles
 
-- **OA:** Defines scope, phase, acceptance criteria, and documentation boundaries.
-- **IA:** Implements scoped changes and updates repo-local documentation that changed because of the implementation.
-- **TA:** Validates behavior, tests, documentation links, and evidence.
+- **Director:** owns planning, scope, acceptance criteria, test selection, integration and delivery.
+- **Executor:** implements one scoped assignment and updates the repo-local documentation that changed because of it.
+- **Independent review:** `devlab-test-guru` reviews test evidence and Sentinel reviews the phase gate. Nobody approves their own work.
+- **Mattias:** makes decisions and gives human acceptance.
 
 The role names are workflow conventions. They do not override repo instructions or owner decisions.
 
@@ -93,10 +95,10 @@ An agent must identify:
 - the files that must not be touched,
 - the relevant SoT files,
 - the relevant test governance files,
-- whether Obsidian contains shared rules that apply to the task.
-- whether the task creates reusable system knowledge that must be crystallized into `wiki/systems/<system>/` or `_system/runbooks/<system>/`.
-- whether the task requires a new or updated `TEST-CATALOG.md` entry before implementation starts.
-- whether the first qualifying run must be captured as a red baseline before implementation.
+- whether Obsidian contains shared rules that apply to the task,
+- whether the task creates reusable system knowledge that must be crystallized into `wiki/systems/<system>/` or `_system/runbooks/<system>/`,
+- the file class of each file to be changed (`.nexus/file-classes.json` when present): `LOCKED` and `NEXUS_GENERATED` files are never edited, and in `MANAGED_BLOCK` files only the project part outside the markers is edited,
+- the acceptance criteria and mandatory test packages recorded in the canonical plan.
 
 ---
 
@@ -106,8 +108,12 @@ An agent must report:
 
 - files changed,
 - tests or validation performed,
-- test catalog entries added or updated,
-- test log entries added or updated,
+- the test result line written in the canonical plan (command, version, pass/fail counts),
 - documentation updated,
 - worklog location used,
 - remaining risks or follow-up actions.
+<!-- NEXUS:GLOBAL-TEMPLATE:END:SOT-40 -->
+
+## Project-specific agent notes
+
+Verified, repo-specific additions only (for example extra consultant sessions, local tooling or flows). None recorded yet.
