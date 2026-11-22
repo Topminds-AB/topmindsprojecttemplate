@@ -4,13 +4,14 @@
 > **Managed block.** The text between the markers is updated centrally through Nexus and must not be edited in this repo. Write project-specific agent notes **below** the block.
 
 > **Purpose:** Define the repo-local agent workflow and how agents find shared rules.
-> **Rule:** `AGENTS.md` is the only canonical repo-level agent entrypoint. Other root agent files are short adapters.
+> **Rule:** the shared agent rules live in the computer's own instruction files, managed through Nexus. `AGENTS.md` is the only repo-level agent entrypoint and holds the project's own rules. Other root agent files are short adapters.
 
 ---
 
 ## 1) Root instruction model
 
-- `AGENTS.md` is the canonical repo-level agent entrypoint.
+- The shared agent rules are in `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md` or `~/.gemini/GEMINI.md` on each computer, written centrally through Nexus. A cloud session or a fresh clone elsewhere does not have them.
+- `AGENTS.md` is the canonical repo-level agent entrypoint for the project's own rules.
 - `CLAUDE.md` must stay short and point to `AGENTS.md`.
 - `GEMINI.md` must stay short and point to `AGENTS.md`.
 - Do not duplicate long instructions across all three files.
